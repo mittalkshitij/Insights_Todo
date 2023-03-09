@@ -6,15 +6,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.databinding.ItemLayoutBinding
 
-class TaskItemAdapter(private var taskList : ArrayList<Task>) :
+class TaskItemAdapter(private var taskList : ArrayList<Task>,private val removeTaskListener:RemoveTaskListener) :
     RecyclerView.Adapter<TaskItemAdapter.MyViewHolder>(){
 
     class MyViewHolder (var binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bindingView(task: Task){
+        fun bindingView(task: Task,removeTaskListener: RemoveTaskListener){
 
             binding.tVItemTitle.text = task.title
             binding.tVItemCreatedAt.text = task.createdAt
+
+            binding.imageViewDelete.setOnClickListener {
+
+                removeTaskListener.removeTask(task)
+            }
         }
     }
 
@@ -27,7 +32,7 @@ class TaskItemAdapter(private var taskList : ArrayList<Task>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.bindingView(taskList[position])
+        holder.bindingView(taskList[position],removeTaskListener)
     }
 
     interface RemoveTaskListener{

@@ -19,17 +19,24 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "User"
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
 
-        binding.recyclerView.adapter = TaskItemAdapter(taskList)
-        //gettingData()
+        binding.recyclerView.adapter = TaskItemAdapter(taskList,  object :
+            TaskItemAdapter.RemoveTaskListener {
+
+            override fun removeTask(task: Task) {
+                taskList.remove(task)
+                (binding.recyclerView.adapter as TaskItemAdapter).notifyItemRemoved(taskList.indexOf(task))
+            }
+        })
 
         binding.buttonAdd.setOnClickListener {
 
             binding.buttonAdd.hide()
             supportFragmentManager.beginTransaction().replace(R.id.coordinatorLayout,TaskFragment(this)).commit()
         }
-
     }
 
     override fun onAddTask(task: Task) {
@@ -41,5 +48,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         supportFragmentManager.findFragmentById(R.id.coordinatorLayout)
             ?.let { supportFragmentManager.beginTransaction().remove(it).commit() }
     }
+
+
 
 }

@@ -82,6 +82,8 @@
         android:backgroundTint="@color/white"
         android:foregroundTint="@color/white"
         android:hint="@string/desc"
+        app:hintTextColor="@color/white"
+        app:boxBackgroundColor=""
         android:textColorHint="@color/white"
         app:boxStrokeColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
