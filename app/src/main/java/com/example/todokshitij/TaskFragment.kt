@@ -1,5 +1,6 @@
 package com.example.todokshitij
 
+import android.app.ActionBar
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.todokshitij.databinding.FragmentTaskBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
 
@@ -20,15 +23,19 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
     ): View? {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
+        val sdf = SimpleDateFormat("yyyy/MM/dd ',' HH:mm")
+        val createdAt: String = sdf.format(Date())
+        binding?.textViewTime?.text = "Created at $createdAt"
 
         binding?.tickButton?.setOnClickListener {
 
             val title = binding?.editTextTitle?.editText?.text.toString()
             val desc = binding?.editTextDesc?.editText?.text.toString()
-            val createdAt = binding?.textViewTime?.text.toString()
 
-            addTaskListener.onAddTask(task = Task(title,desc,createdAt))
+            addTaskListener.onAddTask(task = Task(title, desc, createdAt))
         }
+
+
         return binding?.root
     }
 

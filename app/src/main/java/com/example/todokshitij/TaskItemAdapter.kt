@@ -17,7 +17,6 @@ class TaskItemAdapter(private var taskList : ArrayList<Task>,private val removeT
             binding.tVItemCreatedAt.text = task.createdAt
 
             binding.imageViewDelete.setOnClickListener {
-
                 removeTaskListener.removeTask(task)
             }
         }

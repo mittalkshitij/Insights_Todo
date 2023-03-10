@@ -1,54 +1,86 @@
 package com.example.todokshitij
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.example.todokshitij.databinding.ActivityHomeBinding
-import com.example.todokshitij.databinding.ActivityMainBinding
+
 
 class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     private lateinit var binding: ActivityHomeBinding
-    private var taskList : ArrayList<Task> = arrayListOf()
+    private var taskList: ArrayList<Task> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "User"
+        setSupportActionBar(binding.toolbar)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = intent.getStringExtra("name")
 
-        binding.recyclerView.adapter = TaskItemAdapter(taskList,  object :
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.findFragmentById(R.id.clContainer) !is TaskFragment) {
+                binding.buttonAdd.show()
+                binding.toolbar.menu.findItem(R.id.sort).isVisible = true
+            }
+        }
+        //supportActionBar?.displayOptions
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.recyclerView.adapter = TaskItemAdapter(taskList, object :
             TaskItemAdapter.RemoveTaskListener {
 
             override fun removeTask(task: Task) {
+                (binding.recyclerView.adapter as TaskItemAdapter).notifyItemRemoved(
+                    taskList.indexOf(task))
                 taskList.remove(task)
-                (binding.recyclerView.adapter as TaskItemAdapter).notifyItemRemoved(taskList.indexOf(task))
             }
         })
 
         binding.buttonAdd.setOnClickListener {
-
             binding.buttonAdd.hide()
-            supportFragmentManager.beginTransaction().replace(R.id.coordinatorLayout,TaskFragment(this)).commit()
+
+            binding.toolbar.menu.findItem(R.id.sort).isVisible = false
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.clContainer, TaskFragment(this))
+                .addToBackStack(null)
+                .commit()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main ,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.sort -> Toast.makeText(this, "Sort Clicked", Toast.LENGTH_SHORT).show()
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAddTask(task: Task) {
         taskList.add(task)
-        (binding.recyclerView.adapter as TaskItemAdapter).notifyItemInserted(taskList.indexOf(task))
-
+        (binding.recyclerView.adapter as TaskItemAdapter).notifyItemInserted(
+            taskList.indexOf(task)
+        )
         binding.buttonAdd.show()
-        supportFragmentManager.popBackStack()
-        supportFragmentManager.findFragmentById(R.id.coordinatorLayout)
+        binding.toolbar.menu.findItem(R.id.sort).isVisible = true
+//        supportFragmentManager.popBackStack()
+        supportFragmentManager.findFragmentById(R.id.clContainer)
             ?.let { supportFragmentManager.beginTransaction().remove(it).commit() }
     }
-
-
-
 }

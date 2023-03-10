@@ -17,19 +17,18 @@ class MainActivity : AppCompatActivity() {
     private var MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)
     private var MIN_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR) - 50
 
-
+    private var name : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         binding.buttonLogin.setOnClickListener {
 
             if (isValidName() && isValidPhone() && binding.editTextDob.editText?.text?.length== 10) {
                 val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtra("name",name)
                 startActivity(intent)
             }else if (!isValidName()){
                 binding.editTextName.editText?.error = "Invalid Name"
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
                 binding.editTextDob.editText?.error = "Invalid Date"
             }
         }
-
 
         binding.editTextDob.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -62,9 +60,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (textLength == 10) {
 
-                        var dd = text.substring(0, 2)
-                        var mm = text.substring(3, 5)
-                        var yyyy = text.substring(6)
+                        val dd = text.substring(0, 2)
+                        val mm = text.substring(3, 5)
+                        val yyyy = text.substring(6)
 
                         if (!checkValidDate(dd.toInt(), mm.toInt(), yyyy.toInt())) {
 
@@ -94,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isValidName() : Boolean{
-        val name = binding.editTextName.editText?.text.toString()
+        name = binding.editTextName.editText?.text.toString()
         if (Regex("^([a-zA-Z]{2,}\\s[a-zA-Z]{2,}\\s?[a-zA-Z]*)").matches(name)){
             return true
         }
