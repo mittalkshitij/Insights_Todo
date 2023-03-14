@@ -10,9 +10,6 @@ package com.example.todokshitij
 //}
 
 
-
-
-
 //binding.editTextDob.editText?.apply {
 //    val str: String = text.toString()
 //    val textLength: Int = text.length
@@ -29,7 +26,6 @@ package com.example.todokshitij
 //    }
 //}
 //}
-
 
 
 //    <com.google.android.material.floatingactionbutton.FloatingActionButton

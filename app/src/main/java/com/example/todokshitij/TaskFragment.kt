@@ -1,11 +1,13 @@
 package com.example.todokshitij
 
-import android.app.ActionBar
+import android.content.Context
+import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.todokshitij.databinding.FragmentTaskBinding
@@ -28,18 +30,20 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
         binding?.textViewTime?.text = "Created at $createdAt"
 
         binding?.tickButton?.setOnClickListener {
+            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                binding?.tickButton?.windowToken,
+                0
+            )
 
             val title = binding?.editTextTitle?.editText?.text.toString()
             val desc = binding?.editTextDesc?.editText?.text.toString()
 
             addTaskListener.onAddTask(task = Task(title, desc, createdAt))
         }
-
-
         return binding?.root
     }
 
-    interface AddTaskListener{
+    interface AddTaskListener {
         fun onAddTask(task: Task)
     }
 }

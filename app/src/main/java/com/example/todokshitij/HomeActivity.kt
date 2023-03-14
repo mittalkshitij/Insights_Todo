@@ -1,9 +1,9 @@
 package com.example.todokshitij
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +34,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
                 binding.toolbar.menu.findItem(R.id.sort).isVisible = true
             }
         }
-        //supportActionBar?.displayOptions
+
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.recyclerView.adapter = TaskItemAdapter(taskList, object :
@@ -42,7 +42,8 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
             override fun removeTask(task: Task) {
                 (binding.recyclerView.adapter as TaskItemAdapter).notifyItemRemoved(
-                    taskList.indexOf(task))
+                    taskList.indexOf(task)
+                )
                 taskList.remove(task)
             }
         })
@@ -60,7 +61,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main ,menu)
+        menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -79,8 +80,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         )
         binding.buttonAdd.show()
         binding.toolbar.menu.findItem(R.id.sort).isVisible = true
-//        supportFragmentManager.popBackStack()
-        supportFragmentManager.findFragmentById(R.id.clContainer)
-            ?.let { supportFragmentManager.beginTransaction().remove(it).commit() }
+        supportFragmentManager.popBackStack()
+//        onBackPressedDispatcher.onBackPressed()
     }
 }

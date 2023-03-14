@@ -1,17 +1,19 @@
 package com.example.todokshitij
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.databinding.ItemLayoutBinding
 
-class TaskItemAdapter(private var taskList : ArrayList<Task>,private val removeTaskListener:RemoveTaskListener) :
-    RecyclerView.Adapter<TaskItemAdapter.MyViewHolder>(){
+class TaskItemAdapter(
+    private var taskList: ArrayList<Task>,
+    private val removeTaskListener: RemoveTaskListener
+) :
+    RecyclerView.Adapter<TaskItemAdapter.MyViewHolder>() {
 
-    class MyViewHolder (var binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+    class MyViewHolder(var binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindingView(task: Task,removeTaskListener: RemoveTaskListener){
+        fun bindingView(task: Task, removeTaskListener: RemoveTaskListener) {
 
             binding.tVItemTitle.text = task.title
             binding.tVItemCreatedAt.text = task.createdAt
@@ -31,10 +33,10 @@ class TaskItemAdapter(private var taskList : ArrayList<Task>,private val removeT
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.bindingView(taskList[position],removeTaskListener)
+        holder.bindingView(taskList[position], removeTaskListener)
     }
 
-    interface RemoveTaskListener{
+    interface RemoveTaskListener {
         fun removeTask(task: Task)
     }
 }

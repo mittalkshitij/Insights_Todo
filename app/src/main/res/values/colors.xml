@@ -43,4 +43,14 @@
     <color name="dark_blue">#1E304C</color>
     <color name="apple_pink">#6A2B41</color>
     <color name="green_main">#6BD8A8</color>
+    
+    
+    <color name="blue_shade1">#E2EFFD</color>
+    <color name="blue_shade2">#ADD4F2</color>
+    <color name="blue_shade3">#2E5392</color>
+    <color name="blue_shade4">#4C74AC</color>
+    <color name="blue_shade5">#6B9DC3</color>
+
+    <color name="green_shade1">#265636</color>
+    <color name="green_shade2">#93AFAC</color>
 </resources>

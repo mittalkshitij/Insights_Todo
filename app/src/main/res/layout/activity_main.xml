@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue">
+    android:background="@drawable/gradient_background">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
+        android:fontFamily="@font/inter_medium"
         android:text="@string/login"
-        android:textColor="@color/white"
+        android:textColor="@color/graphBlue"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,29 +26,31 @@
         android:layout_width="349dp"
         android:layout_height="0dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/white"
-        android:foregroundTint="@color/white"
+        android:backgroundTint="@color/graphBlue"
+        android:foregroundTint="@color/graphBlue"
         android:hint="@string/full_name"
-        android:textColorHint="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeErrorColor="@color/white"
+        android:textColorHint="@color/graphBlue"
+        app:boxStrokeColor="@color/graphBlue"
+        app:boxStrokeErrorColor="@color/graphBlue"
         app:boxStrokeWidth="3dp"
-        app:hintTextColor="@color/white"
         app:errorEnabled="true"
+        app:hintTextColor="@color/graphBlue"
         app:layout_constraintBottom_toTopOf="@+id/editTextMobileNo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:startIconDrawable="@drawable/baseline_person_24"
-        app:startIconTint="@color/white">
+        app:startIconTint="@color/graphBlue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/graphBlue"
             app:helperText="Required"
-            app:helperTextTextColor="@color/design_default_color_error"
-
-            android:textColor="@color/white" />
+            android:nextFocusDown="@id/editTextMobileNo"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            app:helperTextTextColor="@color/design_default_color_error" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -57,29 +59,29 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:hint="@string/mobile_no"
-        android:textColorHint="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeErrorColor="@color/white"
+        android:textColorHint="@color/graphBlue"
+        app:boxStrokeColor="@color/graphBlue"
+        app:boxStrokeErrorColor="@color/graphBlue"
         app:boxStrokeWidth="3dp"
-        app:hintTextColor="@color/white"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/graphBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:errorEnabled="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
         app:startIconDrawable="@drawable/baseline_local_phone_24"
-        app:startIconTint="@color/white">
+        app:startIconTint="@color/graphBlue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:maxLength="10"
+            android:textColor="@color/graphBlue"
             app:helperText="Required"
-            app:helperTextTextColor="@color/design_default_color_error"
-            android:textColor="@color/white" />
+            app:helperTextTextColor="@color/design_default_color_error" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,27 +92,28 @@
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
         android:hint="@string/dob"
-        android:textColorHint="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:errorEnabled="true"
+        android:textColorHint="@color/graphBlue"
+        app:boxStrokeColor="@color/graphBlue"
         app:boxStrokeWidth="3dp"
-        app:hintTextColor="@color/white"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/graphBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMobileNo"
         app:startIconDrawable="@drawable/baseline_date_range_24"
-        app:startIconTint="@color/white">
+        app:startIconTint="@color/graphBlue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:inputType="date"
-            app:helperText="Required"
-            app:helperTextTextColor="@color/design_default_color_error"
+            android:inputType="number"
             android:maxLength="10"
-            android:textColor="@color/white" />
+            android:imeOptions="actionDone"
+            android:textColor="@color/graphBlue"
+            app:helperText="Required"
+            app:helperTextTextColor="@color/design_default_color_error" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -119,15 +122,15 @@
         android:layout_width="114dp"
         android:layout_height="55dp"
         android:layout_marginTop="70dp"
-
         android:text="@string/login"
-        android:textColor="@color/white"
+        android:focusable="false"
+        android:textColor="@color/graphBlue"
         android:textSize="15sp"
         app:cornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDob"
-        app:strokeColor="@color/white" />
+        app:strokeColor="@color/graphBlue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
