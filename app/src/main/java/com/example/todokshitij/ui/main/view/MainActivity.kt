@@ -1,79 +1,80 @@
-package com.example.todokshitij
+package com.example.todokshitij.ui.main.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todokshitij.databinding.ActivityMainBinding
+import com.example.todokshitij.ui.home.view.HomeActivity
 import java.util.Calendar
+
+const val ERROR_NAME = "Invalid Name"
+const val ERROR_PHONE_NUMBER = "Invalid Phone Number"
+const val ERROR_DATE = "Invalid Date"
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private var MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)
+        private var MIN_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR) - 50
+        private var full_name: String = ""
+    }
+
     private lateinit var binding: ActivityMainBinding
-
-    private var MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)
-    private var MIN_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR) - 50
-
-    private var name: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setOnClickListeners()
+        handleDataText()
+    }
+
+    private fun setOnClickListeners() {
+
         binding.buttonLogin.setOnClickListener {
 
             if (isValidName() && isValidPhone() && binding.editTextDob.editText?.text?.length == 10) {
                 val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("name", name)
+                intent.putExtra("name", full_name)
                 startActivity(intent)
             } else if (!isValidName()) {
-                binding.editTextName.editText?.error = "Invalid Name"
+                binding.editTextName.editText?.error = ERROR_NAME
             } else if (!isValidPhone()) {
-                binding.editTextMobileNo.editText?.error = "Invalid Phone"
+                binding.editTextMobileNo.editText?.error = ERROR_PHONE_NUMBER
             } else {
-                binding.editTextDob.editText?.error = "Invalid Date"
+                binding.editTextDob.editText?.error = ERROR_DATE
             }
         }
-        handleDataText()
     }
 
-    private fun handleDataText(){
+    private fun handleDataText() {
+
         var beforeTextLength = 0
+
         binding.editTextDob.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 beforeTextLength = s.length
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
 
                 binding.editTextDob.editText?.apply {
 
-
                     val str: String = text.toString()
                     val textLength: Int = text.length
 
-
                     if (textLength == 3 || textLength == 6) {
-                        if (textLength > beforeTextLength){
+                        if (textLength > beforeTextLength) {
                             setText(
                                 StringBuilder(text.toString()).insert(str.length - 1, "/")
                                     .toString()
                             )
-                        }/*else{
-                            setText(text.substring(0, textLength-2))
-                        }*/
-//                        setText(
-//                            StringBuilder(text.toString()).insert(str.length - 1, "/")
-//                                .toString()
-//                        )
+                        }
                         setSelection(length())
                     }
                     if (textLength == 10) {
@@ -108,30 +109,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isValidName(): Boolean {
-        name = binding.editTextName.editText?.text.toString()
-        if (Regex("^([a-zA-Z]{2,}\\s[a-zA-Z]{2,}\\s?[a-zA-Z]*)").matches(name)) {
+        full_name = binding.editTextName.editText?.text.toString()
+        if (Regex("^([a-zA-Z]{2,}\\s[a-zA-Z]{2,}\\s?[a-zA-Z]*)").matches(full_name)) {
             return true
         }
         return false
     }
 
 
-    fun checkValidDate(d: Int, m: Int, y: Int): Boolean {
+    fun checkValidDate(day: Int, month: Int, year: Int): Boolean {
 
-        if (y > MAX_VALID_YEAR || y < MIN_VALID_YEAR)
+        if (year > MAX_VALID_YEAR || year < MIN_VALID_YEAR)
             return false
-        if (m < 1 || m > 12) return false
-        if (d < 1 || d > 31) return false
+        if (month < 1 || month > 12) return false
+        if (day < 1 || day > 31) return false
 
-        if (m == 2) {
-            return if (isLeap(y)) d <= 29 else d <= 28
+        if (month == 2) {
+            return if (isLeap(year)) day <= 29 else day <= 28
         }
-        return if (m == 4 || m == 6 || m == 9 || m == 11
-        ) d <= 30 else true
+        return if (month == 4 || month == 6 || month == 9 || month == 11
+        ) day <= 30 else true
     }
 
-    private fun isLeap(year: Int): Boolean {
-
-        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    }
+    private fun isLeap(year: Int): Boolean = year % 4 == 0 && year % 100 != 0 || year % 400 == 0
 }

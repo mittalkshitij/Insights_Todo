@@ -8,7 +8,7 @@
     <string name="desc">Description</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="created_at">Created At</string>
+    <string name="created_at">Created at</string>
     <string name="sort">Sort</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
@@ -16,5 +16,11 @@
     <string name="record_description">Record and create your day-to-day task</string>
     <string name="schedule_description">Schedule your task to complete on time</string>
     <string name="manage_description">Manage and plan according to your schedule</string>
+    <string name="schedule">Schedule Date and Time</string>
+    <string name="schedule_at">Scheduled at</string>
+    <string name="done">Done</string>
+    <string name="created_time">Created at %1$s</string>
+    <string name="scheduled_time">Scheduled at %1$s/%2$s/%3$s ,%4$s:%5$s</string>
+
 
 </resources>

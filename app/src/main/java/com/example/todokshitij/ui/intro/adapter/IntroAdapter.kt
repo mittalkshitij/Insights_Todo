@@ -1,6 +1,5 @@
-package com.example.todokshitij
+package com.example.todokshitij.ui.intro.adapter
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -23,5 +22,4 @@ class IntroAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     override fun getItemCount(): Int {
         return fragmentList.size
     }
-
 }

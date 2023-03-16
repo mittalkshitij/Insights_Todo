@@ -1,14 +1,15 @@
-package com.example.todokshitij
+package com.example.todokshitij.ui.intro.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.todokshitij.databinding.FragmentIntroBinding
+import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_DESCRIPTION_KEY
+import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_IMAGE_KEY
+import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_TITLE_KEY
 
 class IntroFragment : Fragment() {
 
@@ -22,9 +23,9 @@ class IntroFragment : Fragment() {
 
         binding = FragmentIntroBinding.inflate(layoutInflater,container,false)
 
-        binding?.textViewTitle?.text = arguments?.getString("FragmentTitle","")
-        binding?.textViewDescription?.text = arguments?.getString("FragmentDesc","")
-        binding?.imageViewLogo?.setImageDrawable(arguments?.getInt("FragmentImage")
+        binding?.textViewTitle?.text = arguments?.getString(FRAGMENT_TITLE_KEY)
+        binding?.textViewDescription?.text = arguments?.getString(FRAGMENT_DESCRIPTION_KEY)
+        binding?.imageViewLogo?.setImageDrawable(arguments?.getInt(FRAGMENT_IMAGE_KEY)
             ?.let { AppCompatResources.getDrawable(requireContext(),it) })
 
         return binding?.root

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_margin="5dp"
     app:cardBackgroundColor="@color/blue_shade2"
@@ -25,6 +25,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/inter_regular"
             android:text="@string/title"
+            android:maxLines="1"
             android:textColor="@color/graphBlue"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -32,17 +33,31 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tVItemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/desc"
+            android:textColor="@color/graphBlue"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tVItemTitle" />
+
+        <TextView
             android:id="@+id/tVItemCreatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/inter_regular"
             android:text="@string/created_at"
             android:textColor="@color/graphBlue"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tVItemTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tVItemDescription" />
 
         <ImageView
             android:id="@+id/imageViewDelete"
@@ -53,7 +68,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/baseline_delete_24" />
+            app:srcCompat="@drawable/baseline_delete_24"/>
+
+        <TextView
+            android:id="@+id/tVItemScheduleAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/schedule_at"
+            android:textColor="@color/darkOrange"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tVItemCreatedAt" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
