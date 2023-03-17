@@ -8,8 +8,8 @@ import android.os.Looper
 import android.view.animation.AnimationUtils
 import com.example.todokshitij.databinding.ActivitySplashScreenBinding
 import com.example.todokshitij.ui.intro.view.IntroActivity
+import com.example.todokshitij.utils.Constants.SPLASH_SCREEN_DURATION
 
-const val SPLASH_SCREEN_DURATION = 5000
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
@@ -21,12 +21,15 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
 
         setupAnimation()
+        setupHandler()
+        setContentView(binding.root)
+    }
+
+    private fun setupHandler(){
 
         Handler(Looper.getMainLooper()).postDelayed({
             openActivity()
         }, SPLASH_SCREEN_DURATION.toLong())
-
-        setContentView(binding.root)
     }
 
     private fun setupAnimation() {

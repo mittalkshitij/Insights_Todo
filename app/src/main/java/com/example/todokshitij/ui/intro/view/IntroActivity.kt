@@ -11,13 +11,13 @@ import com.example.todokshitij.databinding.ActivityIntroBinding
 import com.example.todokshitij.ui.intro.adapter.IntroAdapter
 import com.example.todokshitij.ui.main.view.MainActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.example.todokshitij.utils.Constants.FRAGMENT_DESCRIPTION_KEY
+import com.example.todokshitij.utils.Constants.FRAGMENT_IMAGE_KEY
+import com.example.todokshitij.utils.Constants.FRAGMENT_TITLE_KEY
 
 class IntroActivity : AppCompatActivity() {
 
     companion object {
-        const val FRAGMENT_TITLE_KEY = "FragmentTitle"
-        const val FRAGMENT_DESCRIPTION_KEY = "FragmentDesc"
-        const val FRAGMENT_IMAGE_KEY = "FragmentImage"
 
         fun openIntroActivity(context: Context) {
             context.startActivity(Intent(context, IntroActivity::class.java))
@@ -36,8 +36,6 @@ class IntroActivity : AppCompatActivity() {
         setupAdapter()
         setupViewPager()
         setOnClickListeners()
-
-
     }
 
     private fun setOnClickListeners() {
@@ -87,9 +85,7 @@ class IntroActivity : AppCompatActivity() {
 
         binding.viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageScrolled(
-                position: Int, positionOffset: Float, positionOffsetPixels: Int
-            ) {
-            }
+                position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
 

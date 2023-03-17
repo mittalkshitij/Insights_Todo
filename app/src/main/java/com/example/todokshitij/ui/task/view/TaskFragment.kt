@@ -91,7 +91,6 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
                     task = Task(title, desc, createdTime, scheduleTime),
                     editingPos!!
                 )
-
             } else {
                 addTaskListener.onAddTask(task = Task(title, desc, createdTime, scheduleTime))
             }

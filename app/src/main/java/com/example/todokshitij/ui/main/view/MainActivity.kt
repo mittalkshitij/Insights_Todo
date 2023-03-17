@@ -5,48 +5,71 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.todokshitij.databinding.ActivityMainBinding
 import com.example.todokshitij.ui.home.view.HomeActivity
-import java.util.Calendar
+import com.example.todokshitij.ui.main.model.Login
+import com.example.todokshitij.ui.main.viewmodel.LoginViewModel
+import com.example.todokshitij.utils.Constants.ERROR_DATE
+import com.example.todokshitij.utils.Constants.ERROR_NAME
+import com.example.todokshitij.utils.Constants.ERROR_PHONE_NUMBER
+import com.example.todokshitij.utils.ValidationStatus
+import com.example.todokshitij.utils.checkValidDate
 
-const val ERROR_NAME = "Invalid Name"
-const val ERROR_PHONE_NUMBER = "Invalid Phone Number"
-const val ERROR_DATE = "Invalid Date"
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        private var MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)
-        private var MIN_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR) - 50
-        private var full_name: String = ""
-    }
-
     private lateinit var binding: ActivityMainBinding
+    private var loginViewModel: LoginViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
         setOnClickListeners()
+        observeLoginData()
         handleDataText()
+    }
+
+    private fun observeLoginData() {
+
+        loginViewModel?.validationLiveData?.observe(this) {
+
+            when (it) {
+
+                ValidationStatus.VALIDATION_SUCCESS -> {
+
+                    val fullName = binding.editTextName.editText?.text.toString()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.putExtra("name", fullName)
+                    startActivity(intent)
+                }
+                ValidationStatus.VALIDATION_ERROR_NAME -> {
+                    binding.editTextName.editText?.error = ERROR_NAME
+                }
+                ValidationStatus.VALIDATION_ERROR_PHONE -> {
+                    binding.editTextMobileNo.editText?.error = ERROR_PHONE_NUMBER
+                }
+                ValidationStatus.VALIDATION_ERROR_DOB -> {
+                    binding.editTextDob.editText?.error = ERROR_DATE
+                }
+            }
+        }
     }
 
     private fun setOnClickListeners() {
 
         binding.buttonLogin.setOnClickListener {
 
-            if (isValidName() && isValidPhone() && binding.editTextDob.editText?.text?.length == 10) {
-                val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("name", full_name)
-                startActivity(intent)
-            } else if (!isValidName()) {
-                binding.editTextName.editText?.error = ERROR_NAME
-            } else if (!isValidPhone()) {
-                binding.editTextMobileNo.editText?.error = ERROR_PHONE_NUMBER
-            } else {
-                binding.editTextDob.editText?.error = ERROR_DATE
-            }
+            val fullName = binding.editTextName.editText?.text.toString()
+            val phoneNumber = binding.editTextMobileNo.editText?.text.toString()
+            val dob = binding.editTextDob.editText?.text.toString()
+
+            loginViewModel?.validateLogin(Login(fullName, phoneNumber, dob))
+
         }
     }
 
@@ -97,39 +120,4 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
-
-    private fun isValidPhone(): Boolean {
-
-        val phone = binding.editTextMobileNo.editText?.text.toString()
-        if (Regex("[1-9]\\d{9}").matches(phone) && phone.length == 10) {
-            return true
-        }
-        return false
-    }
-
-    private fun isValidName(): Boolean {
-        full_name = binding.editTextName.editText?.text.toString()
-        if (Regex("^([a-zA-Z]{2,}\\s[a-zA-Z]{2,}\\s?[a-zA-Z]*)").matches(full_name)) {
-            return true
-        }
-        return false
-    }
-
-
-    fun checkValidDate(day: Int, month: Int, year: Int): Boolean {
-
-        if (year > MAX_VALID_YEAR || year < MIN_VALID_YEAR)
-            return false
-        if (month < 1 || month > 12) return false
-        if (day < 1 || day > 31) return false
-
-        if (month == 2) {
-            return if (isLeap(year)) day <= 29 else day <= 28
-        }
-        return if (month == 4 || month == 6 || month == 9 || month == 11
-        ) day <= 30 else true
-    }
-
-    private fun isLeap(year: Int): Boolean = year % 4 == 0 && year % 100 != 0 || year % 400 == 0
 }

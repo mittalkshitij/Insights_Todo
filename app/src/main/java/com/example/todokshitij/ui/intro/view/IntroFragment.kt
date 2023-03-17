@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.example.todokshitij.databinding.FragmentIntroBinding
-import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_DESCRIPTION_KEY
-import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_IMAGE_KEY
-import com.example.todokshitij.ui.intro.view.IntroActivity.Companion.FRAGMENT_TITLE_KEY
+import com.example.todokshitij.utils.Constants.FRAGMENT_DESCRIPTION_KEY
+import com.example.todokshitij.utils.Constants.FRAGMENT_IMAGE_KEY
+import com.example.todokshitij.utils.Constants.FRAGMENT_TITLE_KEY
 
 class IntroFragment : Fragment() {
 

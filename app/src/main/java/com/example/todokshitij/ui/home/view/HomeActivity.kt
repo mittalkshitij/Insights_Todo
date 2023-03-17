@@ -129,6 +129,5 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
             taskList.indexOf(task)
         )
         supportFragmentManager.popBackStack()
-
     }
 }
