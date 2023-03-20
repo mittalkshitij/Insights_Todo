@@ -40,5 +40,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun openActivity() {
         IntroActivity.openIntroActivity(this)
+        overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
+        finish()
     }
 }

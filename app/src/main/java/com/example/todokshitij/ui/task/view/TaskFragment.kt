@@ -13,9 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.todokshitij.R
 import com.example.todokshitij.databinding.FragmentTaskBinding
-import com.example.todokshitij.ui.home.view.HomeActivity.Companion.TASK_DETAILS
-import com.example.todokshitij.ui.home.view.HomeActivity.Companion.TASK_POSITION
 import com.example.todokshitij.ui.task.model.Task
+import com.example.todokshitij.utils.Constants.TASK_DETAILS
+import com.example.todokshitij.utils.Constants.TASK_POSITION
 import java.text.SimpleDateFormat
 import java.util.*
 

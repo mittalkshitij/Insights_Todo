@@ -13,7 +13,7 @@ import com.example.todokshitij.utils.Constants.FRAGMENT_TITLE_KEY
 
 class IntroFragment : Fragment() {
 
-    var binding : FragmentIntroBinding? = null
+    private var binding : FragmentIntroBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -17,4 +17,7 @@ object Constants {
     const val FRAGMENT_DESCRIPTION_KEY = "FragmentDesc"
     const val FRAGMENT_IMAGE_KEY = "FragmentImage"
 
+    const val TASK_DETAILS = "TASK_DETAILS"
+    const val TASK_POSITION = "TASK_POSITION"
+
 }

@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivityMainBinding
 import com.example.todokshitij.ui.home.view.HomeActivity
 import com.example.todokshitij.ui.main.model.Login
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         handleDataText()
     }
 
+    override fun onBackPressed() {
+        super.getOnBackPressedDispatcher().onBackPressed()
+        overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left)
+    }
+
     private fun observeLoginData() {
 
         loginViewModel?.validationLiveData?.observe(this) {
@@ -46,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.putExtra("name", fullName)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
                 }
                 ValidationStatus.VALIDATION_ERROR_NAME -> {
                     binding.editTextName.editText?.error = ERROR_NAME

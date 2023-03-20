@@ -21,6 +21,7 @@ class IntroActivity : AppCompatActivity() {
 
         fun openIntroActivity(context: Context) {
             context.startActivity(Intent(context, IntroActivity::class.java))
+
         }
     }
 
@@ -43,6 +44,7 @@ class IntroActivity : AppCompatActivity() {
         binding.buttonSkip.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
         }
     }
 

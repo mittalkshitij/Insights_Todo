@@ -5,28 +5,32 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivityHomeBinding
+import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.adapter.TaskItemAdapter
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
+import com.example.todokshitij.utils.Constants.TASK_DETAILS
+import com.example.todokshitij.utils.Constants.TASK_POSITION
 
 class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     private lateinit var binding: ActivityHomeBinding
     private var taskList: ArrayList<Task> = arrayListOf()
+    private var homeViewModel : HomeViewModel? = null
 
-    companion object{
-        const val TASK_DETAILS = "TASK_DETAILS"
-        const val TASK_POSITION = "TASK_POSITION"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         setupActionBar()
         setupRecyclerView()
@@ -40,6 +44,11 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         }
     }
 
+    override fun onBackPressed() {
+        super.getOnBackPressedDispatcher().onBackPressed()
+        overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left)
+    }
+
     private fun setupOnClickListeners() {
 
         binding.buttonAdd.setOnClickListener {
@@ -48,9 +57,12 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
             binding.toolbar.menu.findItem(R.id.sort).isVisible = false
 
             supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_animation,R.anim.exit_animation)
                 .replace(R.id.clContainer, TaskFragment(this))
                 .addToBackStack(null)
                 .commit()
+
+
         }
     }
 
@@ -88,6 +100,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
                     binding.toolbar.menu.findItem(R.id.sort).isVisible = false
 
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_animation,R.anim.exit_animation)
                         .replace(R.id.clContainer, TaskFragment(this@HomeActivity).apply {
                             arguments = Bundle()
                             arguments?.putParcelable(TASK_DETAILS, taskList[taskPosition])
@@ -95,6 +108,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
                         })
                         .addToBackStack(null)
                         .commit()
+
                 }
             })
     }
@@ -129,5 +143,6 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
             taskList.indexOf(task)
         )
         supportFragmentManager.popBackStack()
+
     }
 }
