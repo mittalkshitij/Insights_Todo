@@ -23,11 +23,13 @@ class IntroFragment : Fragment() {
 
         binding = FragmentIntroBinding.inflate(layoutInflater,container,false)
 
-        binding?.textViewTitle?.text = arguments?.getString(FRAGMENT_TITLE_KEY)
-        binding?.textViewDescription?.text = arguments?.getString(FRAGMENT_DESCRIPTION_KEY)
-        binding?.imageViewLogo?.setImageDrawable(arguments?.getInt(FRAGMENT_IMAGE_KEY)
-            ?.let { AppCompatResources.getDrawable(requireContext(),it) })
+        binding?.apply {
 
+            textViewTitle.text = arguments?.getString(FRAGMENT_TITLE_KEY)
+            textViewDescription.text = arguments?.getString(FRAGMENT_DESCRIPTION_KEY)
+            imageViewLogo.setImageDrawable(arguments?.getInt(FRAGMENT_IMAGE_KEY)
+                ?.let { AppCompatResources.getDrawable(requireContext(), it) })
+        }
         return binding?.root
     }
 }

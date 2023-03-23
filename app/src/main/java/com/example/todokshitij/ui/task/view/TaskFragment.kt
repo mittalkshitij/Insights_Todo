@@ -16,7 +16,7 @@ import com.example.todokshitij.databinding.FragmentTaskBinding
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
-import java.text.SimpleDateFormat
+import com.example.todokshitij.utils.formatDate
 import java.util.*
 
 class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
@@ -27,9 +27,6 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
 
     private var editingPos: Int? = null
 
-    companion object {
-        var DATE_FORMAT_PATTERN = "dd/MM/yyyy ',' HH:mm"
-    }
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
@@ -38,7 +35,8 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         checkIsEditing()
-        formatDate()
+
+        binding?.textViewTime?.text = "Created at " + formatDate()
         setupOnClickListeners()
 
         return binding?.root
@@ -65,34 +63,32 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
         }
     }
 
-    private fun formatDate() {
-        val createdAt = SimpleDateFormat(DATE_FORMAT_PATTERN, Locale.getDefault()).format(Date())
-        binding?.textViewTime?.text = getString(R.string.created_time, createdAt)
-    }
+
 
     private fun setupOnClickListeners() {
 
-        binding?.textViewSchedule?.setOnClickListener {
-            showDateTimePicker()
-        }
+        binding?.apply {
 
-        binding?.tickButton?.setOnClickListener {
-
-            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                binding?.tickButton?.windowToken, 0
-            )
-            val title = binding?.editTextTitle?.editText?.text.toString()
-            val desc = binding?.editTextDesc?.editText?.text.toString()
-            val scheduleTime = binding?.textViewSchedule?.text.toString()
-            val createdTime = binding?.textViewTime?.text.toString()
-
-            if (isEditing) {
-                addTaskListener.onEditTask(
-                    task = Task(title, desc, createdTime, scheduleTime),
-                    editingPos!!
+            textViewSchedule.setOnClickListener {
+                showDateTimePicker()
+            }
+            tickButton.setOnClickListener {
+                (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    tickButton.windowToken, 0
                 )
-            } else {
-                addTaskListener.onAddTask(task = Task(title, desc, createdTime, scheduleTime))
+                val title = editTextTitle.editText?.text.toString()
+                val desc = editTextDesc.editText?.text.toString()
+                val scheduleTime = textViewSchedule.text.toString()
+                val createdTime = textViewTime.text.toString()
+
+                if (isEditing) {
+                    addTaskListener.onEditTask(
+                        task = Task(title, desc, createdTime, scheduleTime),
+                        editingPos!!
+                    )
+                } else {
+                    addTaskListener.onAddTask(task = Task(title, desc, createdTime, scheduleTime))
+                }
             }
         }
     }

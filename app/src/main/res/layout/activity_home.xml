@@ -47,4 +47,19 @@
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_input_add" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonApiCall"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="118dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="70dp"
+        android:focusable="false"
+        android:text="@string/make_api_call"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="15dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:cornerRadius="50dp"
+        app:strokeColor="@color/graphBlue" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

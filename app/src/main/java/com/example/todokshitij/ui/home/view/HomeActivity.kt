@@ -1,5 +1,6 @@
 package com.example.todokshitij.ui.home.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.adapter.TaskItemAdapter
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
+import com.example.todokshitij.ui.widget.view.WidgetActivity
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
 
@@ -61,8 +63,11 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
                 .replace(R.id.clContainer, TaskFragment(this))
                 .addToBackStack(null)
                 .commit()
+        }
 
-
+        binding.buttonApiCall.setOnClickListener {
+            val intent = Intent(this,WidgetActivity::class.java)
+            startActivity(intent)
         }
     }
 

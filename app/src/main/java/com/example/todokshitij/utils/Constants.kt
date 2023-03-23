@@ -20,4 +20,6 @@ object Constants {
     const val TASK_DETAILS = "TASK_DETAILS"
     const val TASK_POSITION = "TASK_POSITION"
 
+    var DATE_FORMAT_PATTERN = "dd/MM/yyyy ',' HH:mm"
+
 }

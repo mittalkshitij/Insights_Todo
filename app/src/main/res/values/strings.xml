@@ -21,6 +21,9 @@
     <string name="done">Done</string>
     <string name="created_time">Created at %1$s</string>
     <string name="scheduled_time">Scheduled at %1$s/%2$s/%3$s ,%4$s:%5$s</string>
+    <string name="widget_id">Widget Id</string>
+    <string name="widget_name">Widget Name</string>
+    <string name="make_api_call">Call Api</string>
 
 
 </resources>
