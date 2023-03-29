@@ -35,4 +35,4 @@ fun checkValidDate(day: Int, month: Int, year: Int): Boolean {
     ) day <= 30 else true
 }
 
-private fun isLeap(year: Int): Boolean = year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+fun isLeap(year: Int): Boolean = year % 4 == 0 && year % 100 != 0 || year % 400 == 0

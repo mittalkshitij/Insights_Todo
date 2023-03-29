@@ -1,5 +1,6 @@
 package com.example.todokshitij.ui.home.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -7,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.R
@@ -19,13 +19,13 @@ import com.example.todokshitij.ui.task.view.TaskFragment
 import com.example.todokshitij.ui.widget.view.WidgetActivity
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
+import java.util.*
 
 class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     private lateinit var binding: ActivityHomeBinding
     private var taskList: ArrayList<Task> = arrayListOf()
-    private var homeViewModel : HomeViewModel? = null
-
+    private var homeViewModel: HomeViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     override fun onBackPressed() {
         super.getOnBackPressedDispatcher().onBackPressed()
-        overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left)
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
 
     private fun setupOnClickListeners() {
@@ -59,14 +59,14 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
             binding.toolbar.menu.findItem(R.id.sort).isVisible = false
 
             supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_animation,R.anim.exit_animation)
+                .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
                 .replace(R.id.clContainer, TaskFragment(this))
                 .addToBackStack(null)
                 .commit()
         }
 
         binding.buttonApiCall.setOnClickListener {
-            val intent = Intent(this,WidgetActivity::class.java)
+            val intent = Intent(this, WidgetActivity::class.java)
             startActivity(intent)
         }
     }
@@ -105,7 +105,7 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
                     binding.toolbar.menu.findItem(R.id.sort).isVisible = false
 
                     supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_animation,R.anim.exit_animation)
+                        .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
                         .replace(R.id.clContainer, TaskFragment(this@HomeActivity).apply {
                             arguments = Bundle()
                             arguments?.putParcelable(TASK_DETAILS, taskList[taskPosition])
@@ -125,9 +125,29 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort -> Toast.makeText(this, "Sort Clicked", Toast.LENGTH_SHORT).show()
+            R.id.sort -> sortDate()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun sortDate() {
+
+        Toast.makeText(this, "Sort Clicked", Toast.LENGTH_LONG).show()
+        Collections.sort(taskList, dateComparator)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private val dateComparator = Comparator<Task> { date1, date2 ->
+        if (date1.scheduleTime.isNotEmpty() && date2.scheduleTime.isNotEmpty()){
+            if (date1.scheduleTime < date2.scheduleTime){
+                return@Comparator date1.scheduleTime.compareTo(date2.scheduleTime)
+            }else{
+                return@Comparator date2.scheduleTime.compareTo(date1.scheduleTime)
+            }
+        }
+        else
+            return@Comparator 0
     }
 
     override fun onAddTask(task: Task) {
