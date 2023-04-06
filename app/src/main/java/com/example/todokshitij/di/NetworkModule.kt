@@ -1,8 +1,8 @@
 package com.example.todokshitij.di
 
-import com.example.todokshitij.data.api.ApiHelper
-import com.example.todokshitij.data.api.ApiHelperImpl
-import com.example.todokshitij.data.api.ApiInterface
+import com.example.todokshitij.ui.widget.data.api.ApiHelper
+import com.example.todokshitij.ui.widget.data.api.ApiHelperImpl
+import com.example.todokshitij.ui.widget.data.api.ApiInterface
 import com.example.todokshitij.utils.Constants
 import dagger.Module
 import dagger.Provides

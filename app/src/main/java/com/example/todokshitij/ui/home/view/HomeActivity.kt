@@ -8,12 +8,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivityHomeBinding
+import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.adapter.TaskItemAdapter
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
@@ -21,22 +24,21 @@ import com.example.todokshitij.ui.widget.view.WidgetActivity
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
 import com.google.android.gms.location.FusedLocationProviderClient
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
-
-class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
+@AndroidEntryPoint
+class HomeActivity : AppCompatActivity(),TaskItemAdapter.RemoveTaskListener{
 
     private lateinit var binding: ActivityHomeBinding
     private var taskList: ArrayList<Task> = arrayListOf()
 
-    private var wayLatitude = 0.0
-    private var wayLongitude = 0.0
+    private val homeViewModel : HomeViewModel by viewModels()
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    companion object {
-        private const val REQUEST_CODE = 100
-    }
+    private lateinit var taskItemAdapter : TaskItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,22 +57,14 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressedDispatcher.onBackPressed()
-        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
-    }
-
     private fun setupOnClickListeners() {
 
         binding.buttonAdd.setOnClickListener {
-
             binding.buttonAdd.hide()
             binding.toolbar.menu.findItem(R.id.sort).isVisible = false
-
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-                .replace(R.id.clContainer, TaskFragment(this))
+                .replace(R.id.clContainer, TaskFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -84,7 +78,6 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
     private fun setupActionBar() {
 
         setSupportActionBar(binding.toolbar)
-
         supportActionBar?.apply {
             setDisplayUseLogoEnabled(true)
             setDisplayShowHomeEnabled(true)
@@ -96,36 +89,30 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.recyclerView.adapter = TaskItemAdapter(
-            taskList, object :
-                TaskItemAdapter.RemoveTaskListener {
 
-                override fun removeTask(task: Task) {
-                    (binding.recyclerView.adapter as TaskItemAdapter).notifyItemRemoved(
-                        taskList.indexOf(task)
-                    )
-                    taskList.remove(task)
-                }
-            },
-            object : TaskItemAdapter.TaskClickListener {
+        taskItemAdapter = TaskItemAdapter({
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
+                .replace(R.id.clContainer, TaskFragment().apply {
+                    arguments = Bundle()
+                    arguments?.putParcelable(TASK_DETAILS,it)
+                }).addToBackStack(null)
+                .commit()
+        },this)
 
-                override fun onTaskClick(taskPosition: Int) {
+        binding.recyclerView.adapter = taskItemAdapter
 
-                    binding.buttonAdd.hide()
-                    binding.toolbar.menu.findItem(R.id.sort).isVisible = false
+        lifecycle.coroutineScope.launch {
+            homeViewModel.getAllNotes().collect(){
+                taskItemAdapter.submitList(it)
+            }
+        }
+    }
 
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-                        .replace(R.id.clContainer, TaskFragment(this@HomeActivity).apply {
-                            arguments = Bundle()
-                            arguments?.putParcelable(TASK_DETAILS, taskList[taskPosition])
-                            arguments?.putInt(TASK_POSITION, taskPosition)
-                        })
-                        .addToBackStack(null)
-                        .commit()
-
-                }
-            })
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressedDispatcher.onBackPressed()
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -159,24 +146,10 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
             return@Comparator 0
     }
 
-    override fun onAddTask(task: Task) {
+    override fun removeTask(task: Task) {
 
-        taskList.add(task)
-        (binding.recyclerView.adapter as TaskItemAdapter).notifyItemInserted(
-            taskList.indexOf(task)
-        )
-        binding.buttonAdd.show()
-        binding.toolbar.menu.findItem(R.id.sort).isVisible = true
-        supportFragmentManager.popBackStack()
-    }
-
-    override fun onEditTask(task: Task, position: Int) {
-
-        taskList[position] = task
-        (binding.recyclerView.adapter as TaskItemAdapter).notifyItemChanged(
-            taskList.indexOf(task)
-        )
-        supportFragmentManager.popBackStack()
-
+        lifecycle.coroutineScope.launch {
+            homeViewModel.deleteTask(task)
+        }
     }
 }

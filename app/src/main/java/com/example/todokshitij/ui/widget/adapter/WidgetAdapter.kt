@@ -3,7 +3,7 @@ package com.example.todokshitij.ui.widget.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todokshitij.data.model.PersonalizationSequence
+import com.example.todokshitij.ui.widget.data.model.PersonalizationSequence
 import com.example.todokshitij.databinding.WidgetItemBinding
 
 class WidgetAdapter()

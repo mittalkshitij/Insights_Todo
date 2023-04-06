@@ -2,7 +2,7 @@ package com.example.todokshitij.ui.widget.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.todokshitij.data.repository.WidgetRepository
+import com.example.todokshitij.ui.widget.data.repository.WidgetRepository
 import com.example.todokshitij.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

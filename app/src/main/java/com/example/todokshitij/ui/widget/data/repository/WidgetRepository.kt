@@ -1,6 +1,6 @@
-package com.example.todokshitij.data.repository
+package com.example.todokshitij.ui.widget.data.repository
 
-import com.example.todokshitij.data.api.ApiHelper
+import com.example.todokshitij.ui.widget.data.api.ApiHelper
 import javax.inject.Inject
 
 

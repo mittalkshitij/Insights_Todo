@@ -1,4 +1,4 @@
-package com.example.todokshitij.data.api
+package com.example.todokshitij.ui.widget.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

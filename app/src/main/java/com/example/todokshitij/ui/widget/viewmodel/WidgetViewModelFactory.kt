@@ -2,8 +2,8 @@ package com.example.todokshitij.ui.widget.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.todokshitij.data.api.ApiHelperImpl
-import com.example.todokshitij.data.repository.WidgetRepository
+import com.example.todokshitij.ui.widget.data.api.ApiHelperImpl
+import com.example.todokshitij.ui.widget.data.repository.WidgetRepository
 
 //@Suppress("UNCHECKED_CAST")
 //class WidgetViewModelFactory(private val apiHelper: ApiHelperImpl) : ViewModelProvider.Factory {

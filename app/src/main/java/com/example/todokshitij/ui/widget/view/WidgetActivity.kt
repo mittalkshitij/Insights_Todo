@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todokshitij.data.api.ApiHelperImpl
+import com.example.todokshitij.ui.widget.data.api.ApiHelperImpl
 import com.example.todokshitij.databinding.ActivityWidgetBinding
 import com.example.todokshitij.ui.widget.adapter.WidgetAdapter
 import com.example.todokshitij.ui.widget.viewmodel.WidgetViewModel

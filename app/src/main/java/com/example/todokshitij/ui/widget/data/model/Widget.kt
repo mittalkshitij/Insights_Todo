@@ -1,4 +1,4 @@
-package com.example.todokshitij.data.model
+package com.example.todokshitij.ui.widget.data.model
 
 import com.google.gson.annotations.SerializedName
 

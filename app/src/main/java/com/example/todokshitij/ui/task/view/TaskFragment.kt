@@ -11,21 +11,27 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
 import com.example.todokshitij.R
 import com.example.todokshitij.databinding.FragmentTaskBinding
+import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
 import com.example.todokshitij.utils.formatDate
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.*
 
-class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
+@AndroidEntryPoint
+class TaskFragment() : Fragment() {
 
     private var binding: FragmentTaskBinding? = null
 
-    private var isEditing = false
+    private var task: Task? = null
 
-    private var editingPos: Int? = null
+    private val homeViewModel: HomeViewModel by viewModels()
 
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -35,7 +41,6 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         checkIsEditing()
-
         binding?.textViewTime?.text = "Created at " + formatDate()
         setupOnClickListeners()
 
@@ -44,17 +49,12 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
 
     private fun checkIsEditing() {
 
-        if (arguments != null) {
+        task = arguments?.getParcelable(TASK_DETAILS)
 
-            isEditing = true
-            val task = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arguments?.getParcelable(TASK_DETAILS, Task::class.java)
-            } else {
-                arguments?.getParcelable(TASK_DETAILS)
-            }
-            editingPos = arguments?.getInt(TASK_POSITION)
+        if (task != null) {
 
             binding?.apply {
+
                 editTextTitle.editText?.setText(task?.title)
                 editTextDesc.editText?.setText(task?.description)
                 textViewTime.text = task?.createdTime
@@ -64,7 +64,6 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
     }
 
 
-
     private fun setupOnClickListeners() {
 
         binding?.apply {
@@ -72,22 +71,31 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
             textViewSchedule.setOnClickListener {
                 showDateTimePicker()
             }
+
             tickButton.setOnClickListener {
+
                 (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                     tickButton.windowToken, 0
                 )
+
+                val id = if (task != null) task?.id else null
                 val title = editTextTitle.editText?.text.toString()
                 val desc = editTextDesc.editText?.text.toString()
                 val scheduleTime = textViewSchedule.text.toString()
                 val createdTime = textViewTime.text.toString()
 
-                if (isEditing) {
-                    addTaskListener.onEditTask(
-                        task = Task(title, desc, createdTime, scheduleTime),
-                        editingPos!!
-                    )
+                val task = Task(id,title,desc,createdTime,scheduleTime)
+
+                if (id!=null) {
+                    lifecycle.coroutineScope.launch {
+                        homeViewModel.updateTask(task)
+                        activity?.supportFragmentManager?.popBackStack()
+                    }
                 } else {
-                    addTaskListener.onAddTask(task = Task(title, desc, createdTime, scheduleTime))
+                    lifecycle.coroutineScope.launch {
+                        homeViewModel.insertTask(task)
+                        activity?.supportFragmentManager?.popBackStack()
+                    }
                 }
             }
         }
@@ -117,10 +125,5 @@ class TaskFragment(private val addTaskListener: AddTaskListener) : Fragment() {
                 ).show()
             }, currentDate[Calendar.YEAR], currentDate[Calendar.MONTH], currentDate[Calendar.DATE]
         ).show()
-    }
-
-    interface AddTaskListener {
-        fun onAddTask(task: Task)
-        fun onEditTask(task: Task, position: Int)
     }
 }

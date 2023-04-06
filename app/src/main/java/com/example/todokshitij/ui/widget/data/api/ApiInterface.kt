@@ -1,6 +1,6 @@
-package com.example.todokshitij.data.api
+package com.example.todokshitij.ui.widget.data.api
 
-import com.example.todokshitij.data.model.Widget
+import com.example.todokshitij.ui.widget.data.model.Widget
 import retrofit2.Response
 import retrofit2.http.GET
 
