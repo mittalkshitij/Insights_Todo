@@ -1,43 +1,46 @@
 package com.example.todokshitij.ui.widget.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todokshitij.data.api.ApiHelper
-import com.example.todokshitij.data.api.RetrofitClient
+import com.example.todokshitij.data.api.ApiHelperImpl
 import com.example.todokshitij.databinding.ActivityWidgetBinding
 import com.example.todokshitij.ui.widget.adapter.WidgetAdapter
 import com.example.todokshitij.ui.widget.viewmodel.WidgetViewModel
-import com.example.todokshitij.ui.widget.viewmodel.WidgetViewModelFactory
 import com.example.todokshitij.utils.Status
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WidgetActivity : AppCompatActivity() {
 
     private var binding: ActivityWidgetBinding? = null
     private var widgetAdapter: WidgetAdapter? = null
-    private var widgetViewModel: WidgetViewModel? = null
+    private val widgetViewModel: WidgetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWidgetBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        setupViewModel()
+        //setupViewModel()
         setupRecyclerView()
         //getApiResponse()
         getApiResponse()
     }
 
-    private fun setupViewModel() {
-        widgetViewModel = ViewModelProvider(
-            this,
-            WidgetViewModelFactory(apiHelper = ApiHelper(RetrofitClient.apiService))
-        )[WidgetViewModel::class.java]
-    }
+//    private fun setupViewModel() {
+//        widgetViewModel = ViewModelProvider(
+//            this,
+//            WidgetViewModelFactory(apiHelper = ApiHelperImpl(RetrofitClient.apiService))
+//        )[WidgetViewModel::class.java]
+//    }
 
     private fun setupRecyclerView() {
 
@@ -62,7 +65,7 @@ class WidgetActivity : AppCompatActivity() {
 
     private fun getApiResponse() {
 
-        widgetViewModel?.getWidgetData()?.observe(this){
+        widgetViewModel.getWidgetData().observe(this){
 
             it.let { resource->
 
@@ -76,6 +79,7 @@ class WidgetActivity : AppCompatActivity() {
                     }
                     Status.ERROR -> {
                         binding?.recyclerViewWidget?.visibility = View.VISIBLE
+                        Log.e("===",it.message.toString())
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {

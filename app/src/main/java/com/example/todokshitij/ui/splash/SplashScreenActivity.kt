@@ -1,4 +1,4 @@
-package com.example.todokshitij
+package com.example.todokshitij.ui.splash
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
+import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivitySplashScreenBinding
 import com.example.todokshitij.ui.intro.view.IntroActivity
 import com.example.todokshitij.utils.Constants.SPLASH_SCREEN_DURATION
@@ -40,7 +41,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun openActivity() {
         IntroActivity.openIntroActivity(this)
-        overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
+        overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
         finish()
     }
 }

@@ -1,38 +1,47 @@
 package com.example.todokshitij.ui.home.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivityHomeBinding
-import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.adapter.TaskItemAdapter
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
 import com.example.todokshitij.ui.widget.view.WidgetActivity
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.Constants.TASK_POSITION
+import com.google.android.gms.location.FusedLocationProviderClient
 import java.util.*
+
 
 class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
 
     private lateinit var binding: ActivityHomeBinding
     private var taskList: ArrayList<Task> = arrayListOf()
-    private var homeViewModel: HomeViewModel? = null
+
+    private var wayLatitude = 0.0
+    private var wayLongitude = 0.0
+
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    companion object {
+        private const val REQUEST_CODE = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         setupActionBar()
         setupRecyclerView()
@@ -46,8 +55,9 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        super.getOnBackPressedDispatcher().onBackPressed()
+        super.onBackPressedDispatcher.onBackPressed()
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
 
@@ -139,14 +149,13 @@ class HomeActivity : AppCompatActivity(), TaskFragment.AddTaskListener {
     }
 
     private val dateComparator = Comparator<Task> { date1, date2 ->
-        if (date1.scheduleTime.isNotEmpty() && date2.scheduleTime.isNotEmpty()){
-            if (date1.scheduleTime < date2.scheduleTime){
+        if (date1.scheduleTime.isNotEmpty() && date2.scheduleTime.isNotEmpty()) {
+            if (date1.scheduleTime < date2.scheduleTime) {
                 return@Comparator date1.scheduleTime.compareTo(date2.scheduleTime)
-            }else{
+            } else {
                 return@Comparator date2.scheduleTime.compareTo(date1.scheduleTime)
             }
-        }
-        else
+        } else
             return@Comparator 0
     }
 

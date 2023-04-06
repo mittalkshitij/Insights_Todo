@@ -10,10 +10,10 @@ import com.example.todokshitij.R
 import com.example.todokshitij.databinding.ActivityIntroBinding
 import com.example.todokshitij.ui.intro.adapter.IntroAdapter
 import com.example.todokshitij.ui.main.view.MainActivity
-import com.google.android.material.tabs.TabLayoutMediator
 import com.example.todokshitij.utils.Constants.FRAGMENT_DESCRIPTION_KEY
 import com.example.todokshitij.utils.Constants.FRAGMENT_IMAGE_KEY
 import com.example.todokshitij.utils.Constants.FRAGMENT_TITLE_KEY
+import com.google.android.material.tabs.TabLayoutMediator
 
 class IntroActivity : AppCompatActivity() {
 
@@ -21,7 +21,6 @@ class IntroActivity : AppCompatActivity() {
 
         fun openIntroActivity(context: Context) {
             context.startActivity(Intent(context, IntroActivity::class.java))
-
         }
     }
 
@@ -44,7 +43,7 @@ class IntroActivity : AppCompatActivity() {
         binding.buttonSkip.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
+            overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
         }
     }
 
@@ -58,19 +57,28 @@ class IntroActivity : AppCompatActivity() {
 
                 arguments = Bundle()
                 arguments?.putString(FRAGMENT_TITLE_KEY, "Record")
-                arguments?.putString(FRAGMENT_DESCRIPTION_KEY, "Record and create your day-to-day task")
+                arguments?.putString(
+                    FRAGMENT_DESCRIPTION_KEY,
+                    "Record and create your day-to-day task"
+                )
                 arguments?.putInt(FRAGMENT_IMAGE_KEY, R.drawable.baseline_note_add_24)
             }, IntroFragment().apply {
 
                 arguments = Bundle()
                 arguments?.putString(FRAGMENT_TITLE_KEY, "Schedule")
-                arguments?.putString(FRAGMENT_DESCRIPTION_KEY, "Schedule your task to complete on time")
+                arguments?.putString(
+                    FRAGMENT_DESCRIPTION_KEY,
+                    "Schedule your task to complete on time"
+                )
                 arguments?.putInt(FRAGMENT_IMAGE_KEY, R.drawable.baseline_calendar_month_24)
             }, IntroFragment().apply {
 
                 arguments = Bundle()
                 arguments?.putString(FRAGMENT_TITLE_KEY, "Manage")
-                arguments?.putString(FRAGMENT_DESCRIPTION_KEY, "Manage and plan according to your schedule")
+                arguments?.putString(
+                    FRAGMENT_DESCRIPTION_KEY,
+                    "Manage and plan according to your schedule"
+                )
                 arguments?.putInt(FRAGMENT_IMAGE_KEY, R.drawable.baseline_task_24)
             })
         introAdapter.addFragment(fragment = fragmentList)
@@ -81,13 +89,16 @@ class IntroActivity : AppCompatActivity() {
         binding.viewPager2.apply {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = introAdapter
+            startAutoScroll()
         }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { _, _ -> }.attach()
 
         binding.viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageScrolled(
-                position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+                position: Int, positionOffset: Float, positionOffsetPixels: Int
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
 
@@ -101,7 +112,24 @@ class IntroActivity : AppCompatActivity() {
                     }
                 }
             }
+
             override fun onPageScrollStateChanged(state: Int) {}
         })
     }
+
+    private fun startAutoScroll() {
+
+        binding.apply {
+            viewPager2.postDelayed({
+                if (viewPager2.currentItem == (introAdapter.itemCount - 1)) {
+                    viewPager2.currentItem = 0
+                } else {
+                    viewPager2.currentItem =
+                        (viewPager2.currentItem + 1)
+                }
+                startAutoScroll()
+            }, 3000)
+        }
+    }
+
 }

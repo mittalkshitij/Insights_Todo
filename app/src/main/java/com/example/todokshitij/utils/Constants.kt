@@ -19,4 +19,6 @@ object Constants {
 
     const val TASK_DETAILS = "TASK_DETAILS"
     const val TASK_POSITION = "TASK_POSITION"
+
+    const val BASE_URL = "https://bfsd.uat.bfsgodirect.com/"
 }

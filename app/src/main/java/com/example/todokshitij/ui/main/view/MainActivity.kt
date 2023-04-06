@@ -35,8 +35,9 @@ class MainActivity : AppCompatActivity() {
         handleDataText()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        super.getOnBackPressedDispatcher().onBackPressed()
+        super.onBackPressedDispatcher.onBackPressed()
         overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left)
     }
 
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             val dob = binding.editTextDob.editText?.text.toString()
 
             loginViewModel?.validateLogin(Login(fullName, phoneNumber, dob))
-
         }
     }
 

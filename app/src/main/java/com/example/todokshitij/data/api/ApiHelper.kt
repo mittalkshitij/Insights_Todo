@@ -1,6 +1,9 @@
 package com.example.todokshitij.data.api
 
-class ApiHelper(private val apiInterface: ApiInterface) {
+import com.example.todokshitij.data.model.Widget
+import retrofit2.Response
 
-    suspend fun getWidgetData() = apiInterface.getWidgetData()
+interface ApiHelper {
+
+    suspend fun getWidgetData() : Response<Widget>
 }
