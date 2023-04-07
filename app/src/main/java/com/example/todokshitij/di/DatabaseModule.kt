@@ -2,6 +2,7 @@ package com.example.todokshitij.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.todokshitij.data.db.TaskDao
 import com.example.todokshitij.data.db.TaskDatabase
 import dagger.Module
 import dagger.Provides
@@ -22,5 +23,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun providesTaskDao(taskDatabase: TaskDatabase) = taskDatabase.getTaskDao()
+    fun providesTaskDao(taskDatabase: TaskDatabase) : TaskDao = taskDatabase.getTaskDao()
 }

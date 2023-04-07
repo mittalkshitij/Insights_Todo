@@ -7,6 +7,8 @@ interface TaskRepository {
 
     fun getAllTask() : Flow<List<Task>>
 
+    fun sortTaskByDate(sortOrder : Int) : Flow<List<Task>>
+
     suspend fun insertTask(task: Task)
 
     suspend fun deleteTask(task: Task)

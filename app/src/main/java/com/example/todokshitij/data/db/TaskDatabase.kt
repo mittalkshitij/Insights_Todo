@@ -10,7 +10,6 @@ abstract class TaskDatabase :RoomDatabase() {
     abstract fun getTaskDao() : TaskDao
 
     companion object{
-
         const val DB_NAME = "task_database.db"
     }
 }

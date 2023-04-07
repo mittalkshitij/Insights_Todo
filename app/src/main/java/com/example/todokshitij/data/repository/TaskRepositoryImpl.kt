@@ -9,6 +9,8 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
 
     override fun getAllTask(): Flow<List<Task>> = taskDao.getAllTask()
 
+    override fun sortTaskByDate(sortOrder : Int): Flow<List<Task>> = taskDao.sortTaskByDate(sortOrder)
+
     override suspend fun insertTask(task: Task) = taskDao.insertTask(task)
 
     override suspend fun deleteTask(task: Task) = taskDao.deleteTask(task)

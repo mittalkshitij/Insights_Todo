@@ -1,16 +1,11 @@
 package com.example.todokshitij.ui.home.view
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,23 +17,20 @@ import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
 import com.example.todokshitij.ui.widget.view.WidgetActivity
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
-import com.example.todokshitij.utils.Constants.TASK_POSITION
-import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity(),TaskItemAdapter.RemoveTaskListener{
+class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
 
     private lateinit var binding: ActivityHomeBinding
-    private var taskList: ArrayList<Task> = arrayListOf()
 
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
-    private lateinit var taskItemAdapter : TaskItemAdapter
+    private lateinit var taskItemAdapter: TaskItemAdapter
+
+    private var sortCheck: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,17 +87,24 @@ class HomeActivity : AppCompatActivity(),TaskItemAdapter.RemoveTaskListener{
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
                 .replace(R.id.clContainer, TaskFragment().apply {
                     arguments = Bundle()
-                    arguments?.putParcelable(TASK_DETAILS,it)
+                    arguments?.putParcelable(TASK_DETAILS, it)
                 }).addToBackStack(null)
                 .commit()
-        },this)
+        }, this)
 
         binding.recyclerView.adapter = taskItemAdapter
 
         lifecycle.coroutineScope.launch {
-            homeViewModel.getAllNotes().collect(){
+            homeViewModel.getAllNotes().collect{
                 taskItemAdapter.submitList(it)
             }
+        }
+    }
+
+    override fun removeTask(task: Task) {
+
+        lifecycle.coroutineScope.launch {
+            homeViewModel.deleteTask(task)
         }
     }
 
@@ -122,34 +121,25 @@ class HomeActivity : AppCompatActivity(),TaskItemAdapter.RemoveTaskListener{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort -> sortDate()
+            R.id.sort -> sortTaskByDate()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun sortDate() {
-
-        Toast.makeText(this, "Sort Clicked", Toast.LENGTH_LONG).show()
-        Collections.sort(taskList, dateComparator)
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    private val dateComparator = Comparator<Task> { date1, date2 ->
-        if (date1.scheduleTime.isNotEmpty() && date2.scheduleTime.isNotEmpty()) {
-            if (date1.scheduleTime < date2.scheduleTime) {
-                return@Comparator date1.scheduleTime.compareTo(date2.scheduleTime)
-            } else {
-                return@Comparator date2.scheduleTime.compareTo(date1.scheduleTime)
-            }
-        } else
-            return@Comparator 0
-    }
-
-    override fun removeTask(task: Task) {
+    private fun sortTaskByDate() {
 
         lifecycle.coroutineScope.launch {
-            homeViewModel.deleteTask(task)
+            if (sortCheck != true) {
+                homeViewModel.sortTaskByDate(1).collect {
+                    taskItemAdapter.submitList(it)
+                    sortCheck = true
+                }
+            } else {
+                homeViewModel.sortTaskByDate(2).collect{
+                    taskItemAdapter.submitList(it)
+                    sortCheck = false
+                }
+            }
         }
     }
 }

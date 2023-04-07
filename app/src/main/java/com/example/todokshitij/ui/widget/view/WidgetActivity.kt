@@ -29,18 +29,9 @@ class WidgetActivity : AppCompatActivity() {
         binding = ActivityWidgetBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        //setupViewModel()
         setupRecyclerView()
-        //getApiResponse()
         getApiResponse()
     }
-
-//    private fun setupViewModel() {
-//        widgetViewModel = ViewModelProvider(
-//            this,
-//            WidgetViewModelFactory(apiHelper = ApiHelperImpl(RetrofitClient.apiService))
-//        )[WidgetViewModel::class.java]
-//    }
 
     private fun setupRecyclerView() {
 
@@ -50,18 +41,6 @@ class WidgetActivity : AppCompatActivity() {
             adapter = widgetAdapter
         }
     }
-
-//    private fun getApiResponse() {
-//
-//        lifecycleScope.launch {
-//            try {
-//
-//            } catch (e: Exception) {
-//                Toast.makeText(this@WidgetActivity, e.toString(), Toast.LENGTH_LONG).show()
-//            }
-//
-//        }
-//    }
 
     private fun getApiResponse() {
 
@@ -79,7 +58,6 @@ class WidgetActivity : AppCompatActivity() {
                     }
                     Status.ERROR -> {
                         binding?.recyclerViewWidget?.visibility = View.VISIBLE
-                        Log.e("===",it.message.toString())
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
