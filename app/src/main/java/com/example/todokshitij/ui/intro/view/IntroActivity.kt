@@ -128,7 +128,7 @@ class IntroActivity : AppCompatActivity() {
                         (viewPager2.currentItem + 1)
                 }
                 startAutoScroll()
-            }, 3000)
+            }, 2000)
         }
     }
 

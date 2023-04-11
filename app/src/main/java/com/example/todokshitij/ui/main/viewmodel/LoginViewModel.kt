@@ -3,6 +3,7 @@ package com.example.todokshitij.ui.main.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences
 import com.example.todokshitij.ui.main.model.Login
 import com.example.todokshitij.utils.ValidationStatus
 import com.example.todokshitij.utils.isValidName
@@ -20,6 +21,7 @@ class LoginViewModel : ViewModel() {
             && loginData.dob.length == 10
         ) {
             _validationLiveData.value = ValidationStatus.VALIDATION_SUCCESS
+
         } else if (!isValidName(loginData.fullName)) {
             _validationLiveData.value = ValidationStatus.VALIDATION_ERROR_NAME
         } else if (!isValidPhone(loginData.phoneNumber)) {

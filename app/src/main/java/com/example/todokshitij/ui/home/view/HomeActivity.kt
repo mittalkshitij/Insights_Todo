@@ -1,17 +1,25 @@
 package com.example.todokshitij.ui.home.view
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.R
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences.sharedPreferences
 import com.example.todokshitij.databinding.ActivityHomeBinding
 import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
+import com.example.todokshitij.ui.profile.view.ProfileActivity
 import com.example.todokshitij.ui.task.adapter.TaskItemAdapter
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.ui.task.view.TaskFragment
@@ -32,6 +40,7 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
 
     private var sortCheck: Boolean? = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -42,9 +51,11 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
         setupOnClickListeners()
 
         supportFragmentManager.addOnBackStackChangedListener {
+
             if (supportFragmentManager.findFragmentById(R.id.clContainer) !is TaskFragment) {
                 binding.buttonAdd.show()
                 binding.toolbar.menu.findItem(R.id.sort).isVisible = true
+                binding.toolbar.menu.findItem(R.id.apiCallButton).isVisible = true
             }
         }
     }
@@ -54,6 +65,7 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
         binding.buttonAdd.setOnClickListener {
             binding.buttonAdd.hide()
             binding.toolbar.menu.findItem(R.id.sort).isVisible = false
+            binding.toolbar.menu.findItem(R.id.apiCallButton).isVisible = false
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
                 .replace(R.id.clContainer, TaskFragment())
@@ -61,10 +73,6 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
                 .commit()
         }
 
-        binding.buttonApiCall.setOnClickListener {
-            val intent = Intent(this, WidgetActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun setupActionBar() {
@@ -73,7 +81,8 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
         supportActionBar?.apply {
             setDisplayUseLogoEnabled(true)
             setDisplayShowHomeEnabled(true)
-            title = intent.getStringExtra("name")
+
+            title = sharedPreferences?.getString("user_name","hi").toString()
         }
     }
 
@@ -88,6 +97,9 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
                 .replace(R.id.clContainer, TaskFragment().apply {
                     arguments = Bundle()
                     arguments?.putParcelable(TASK_DETAILS, it)
+                    binding.buttonAdd.hide()
+                    binding.toolbar.menu.findItem(R.id.sort).isVisible = false
+                    binding.toolbar.menu.findItem(R.id.apiCallButton).isVisible = false
                 }).addToBackStack(null)
                 .commit()
         }, this)
@@ -122,8 +134,15 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.sort -> sortTaskByDate()
+            R.id.apiCallButton -> callApi()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun callApi() {
+
+        val intent = Intent(this, WidgetActivity::class.java)
+        startActivity(intent)
     }
 
     private fun sortTaskByDate() {
@@ -142,4 +161,5 @@ class HomeActivity : AppCompatActivity(), TaskItemAdapter.RemoveTaskListener {
             }
         }
     }
+
 }

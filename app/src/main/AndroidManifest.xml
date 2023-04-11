@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -17,31 +17,39 @@
         android:theme="@style/Theme.TODOKshitij"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.view.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.widget.view.WidgetActivity"
             android:exported="false" />
         <activity
             android:name=".ui.intro.view.IntroActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.home.view.HomeActivity"
-            android:exported="true">
-
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.home.view.HomeActivity"
+            android:exported="true">
 
+        </activity>
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:exported="true">
 
-
         </activity>
         <activity
             android:name=".ui.main.view.MainActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -35,7 +35,6 @@ class TaskItemAdapter(private val onTaskClick: (Task) -> Unit ,private val remov
             binding.apply {
                 tVItemTitle.text = task.title
                 tVItemDescription.text = task.description
-                tVItemCreatedAt.text = task.createdTime
                 tVItemScheduleAt.text = task.scheduleTime
             }
 

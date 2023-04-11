@@ -8,4 +8,11 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/baseline_sort_24" />
 
+    <item android:title="@string/make_api_call"
+        android:id="@+id/apiCallButton"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_local_phone_24"
+       />
+
 </menu>

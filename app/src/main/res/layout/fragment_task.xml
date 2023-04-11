@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/manuscript">
 
 
     <TextView
@@ -13,10 +13,10 @@
         android:layout_height="43dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="Create New Task"
-        android:textColor="@color/graphBlue"
-        android:textSize="25sp"
+        android:fontFamily="@font/berkshire_swash"
+        android:text="@string/create_new_task"
+        android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,9 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:fontFamily="@font/inter_light"
+        android:fontFamily="@font/berkshire_swash"
         android:text="@string/created_at"
-        android:textColor="@color/graphBlue"
+        android:textSize="17sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -50,12 +51,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
-        android:backgroundTint="@color/graphBlue"
-        android:foregroundTint="@color/graphBlue"
+        android:backgroundTint="@color/black"
+        android:foregroundTint="@color/black"
         android:hint="@string/title"
-        android:textColorHint="@color/graphBlue"
-        app:boxStrokeColor="@color/graphBlue"
-        app:hintTextColor="@color/graphBlue"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,8 +65,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_light"
-            android:textColor="@color/graphBlue"
+            android:fontFamily="@font/fira_sans"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:maxLines="1"
             android:textStyle="bold" />
@@ -80,12 +81,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:backgroundTint="@color/graphBlue"
-        android:foregroundTint="@color/graphBlue"
+        android:backgroundTint="@color/black"
+        android:foregroundTint="@color/black"
         android:hint="@string/desc"
-        android:textColorHint="@color/graphBlue"
-        app:boxStrokeColor="@color/graphBlue"
-        app:hintTextColor="@color/graphBlue"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,10 +95,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/inter_light"
+            android:fontFamily="@font/fira_sans"
             android:gravity="top"
             android:maxLines="10"
-            android:textColor="@color/graphBlue"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -112,12 +113,29 @@
         android:gravity="center|start"
         android:drawablePadding="10dp"
         android:text="@string/schedule"
-        android:textColor="@color/graphBlue"
+        android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDesc"
         app:drawableStartCompat="@drawable/baseline_calendar_month_24" />
+
+    <TextView
+        android:id="@+id/textViewLocation"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center|start"
+        android:drawablePadding="10dp"
+        android:text="@string/location"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSchedule"
+        app:drawableStartCompat="@drawable/baseline_location_on_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,22 +5,23 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/manuscript">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_shade5"
+        android:background="@color/transparent"
         android:minHeight="?attr/actionBarSize">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/blue_shade4"
+            app:contentScrim="@color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleTextColor="@color/graphBlue" />
+            app:titleTextColor="@color/black"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,33 +34,41 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_layout" />
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="427dp"
+            android:layout_height="59dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            app:itemIconSize="29dp"
+            app:itemIconTint="#E64A19"
+            app:itemTextColor="@color/black"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_bar" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAdd"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@android:drawable/ic_input_add" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonApiCall"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="118dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="70dp"
-        android:focusable="false"
-        android:text="@string/make_api_call"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="15dp"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:cornerRadius="50dp"
-        app:strokeColor="@color/graphBlue" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

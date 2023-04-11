@@ -1,12 +1,18 @@
 package com.example.todokshitij.ui.main.view
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.todokshitij.R
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences.sharedPreferences
 import com.example.todokshitij.databinding.ActivityMainBinding
 import com.example.todokshitij.ui.home.view.HomeActivity
 import com.example.todokshitij.ui.main.model.Login
@@ -23,12 +29,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var loginViewModel: LoginViewModel? = null
 
+    private var fullName : String? = null
+    private var phoneNumber : String? = null
+    private var dob : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
+        InsightsSharedPreferences.createEncryptedSharedPreference(this)
 
         setOnClickListeners()
         observeLoginData()
@@ -49,9 +61,14 @@ class MainActivity : AppCompatActivity() {
 
                 ValidationStatus.VALIDATION_SUCCESS -> {
 
-                    val fullName = binding.editTextName.editText?.text.toString()
+                    with(sharedPreferences!!.edit()){
+                        Log.i("===", "$fullName + $phoneNumber + $dob")
+                        putString("user_name",fullName)
+                        putString("phone_no",phoneNumber)
+                        putString("user_dob",dob)
+                        commit()
+                    }
                     val intent = Intent(this, HomeActivity::class.java)
-                    intent.putExtra("name", fullName)
                     startActivity(intent)
                     overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
                 }
@@ -72,11 +89,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonLogin.setOnClickListener {
 
-            val fullName = binding.editTextName.editText?.text.toString()
-            val phoneNumber = binding.editTextMobileNo.editText?.text.toString()
-            val dob = binding.editTextDob.editText?.text.toString()
+            fullName = binding.editTextName.editText?.text.toString()
+            phoneNumber = binding.editTextMobileNo.editText?.text.toString()
+            dob = binding.editTextDob.editText?.text.toString()
 
-            loginViewModel?.validateLogin(Login(fullName, phoneNumber, dob))
+            loginViewModel?.validateLogin(Login(fullName!!, phoneNumber!!, dob!!))
+
         }
     }
 
