@@ -32,6 +32,10 @@
     <string name="create_new_task">Create New Task</string>
     <string name="task">Task</string>
     <string name="completed">Completed</string>
+    <string name="username">Name : %1$s</string>
+    <string name="mobileno">"Mobile No : %1$s"</string>
+    <string name="dobUser">"Dob : %1$s"</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

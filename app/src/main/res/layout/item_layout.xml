@@ -5,45 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="5dp"
-    app:cardBackgroundColor="#CCA414"
+
+    app:cardBackgroundColor="#00FFFFFF"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="0dp"
     app:cardMaxElevation="10dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false">
+    app:cardPreventCornerOverlap="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/horizontalmanuscript_4">
 
         <TextView
             android:id="@+id/tVItemTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/fira_sans"
             android:letterSpacing="0.05"
-            android:text="@string/title"
             android:maxLines="1"
+            android:layout_marginHorizontal="35dp"
+            android:singleLine="true"
+            android:text="@string/title"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tVItemDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="5dp"
-            android:maxLines="1"
             android:fontFamily="@font/fira_sans"
+            android:maxLines="5"
             android:text="@string/desc"
             android:textColor="@color/black"
             android:textSize="13sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewDelete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tVItemTitle" />
 
@@ -57,7 +61,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
             app:srcCompat="@drawable/baseline_delete_24"/>
 
         <TextView
@@ -66,9 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="25dp"
             android:fontFamily="@font/inter_regular"
-            android:hint="@string/schedule_at"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

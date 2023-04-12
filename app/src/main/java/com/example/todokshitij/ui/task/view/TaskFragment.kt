@@ -103,12 +103,12 @@ class TaskFragment() : Fragment() {
                 if (id != null) {
                     lifecycle.coroutineScope.launch {
                         homeViewModel.updateTask(task)
-                        activity?.supportFragmentManager?.popBackStack()
+                        parentFragment?.childFragmentManager?.popBackStack()
                     }
                 } else {
                     lifecycle.coroutineScope.launch {
                         homeViewModel.insertTask(task)
-                        activity?.supportFragmentManager?.popBackStack()
+                        parentFragment?.childFragmentManager?.popBackStack()
                     }
                 }
             }

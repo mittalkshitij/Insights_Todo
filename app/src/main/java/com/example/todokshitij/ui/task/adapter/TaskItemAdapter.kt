@@ -2,16 +2,12 @@ package com.example.todokshitij.ui.task.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todokshitij.databinding.ItemLayoutBinding
-import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.model.Task
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 class TaskItemAdapter(private val onTaskClick: (Task) -> Unit ,private val removeTaskListener: RemoveTaskListener) :
     ListAdapter<Task,TaskItemAdapter.MyViewHolder>(DiffUtilTask) {
@@ -60,5 +56,4 @@ class TaskItemAdapter(private val onTaskClick: (Task) -> Unit ,private val remov
     interface RemoveTaskListener{
          fun removeTask(task: Task)
     }
-
 }

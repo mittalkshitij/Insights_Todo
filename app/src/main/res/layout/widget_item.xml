@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/yellow"
+
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp"
     app:cardMaxElevation="10dp"
@@ -15,18 +15,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background">
+        android:background="@drawable/horizontalmanuscript_4">
 
         <TextView
             android:id="@+id/tVWidgetItemId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/inter_regular"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/fira_sans"
             android:maxLines="1"
             android:text="@string/widget_id"
-            android:textColor="@color/graphBlue"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +38,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/inter_regular"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="@font/fira_sans"
             android:maxLines="1"
             android:text="@string/widget_name"
-            android:textColor="@color/graphBlue"
+            android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
