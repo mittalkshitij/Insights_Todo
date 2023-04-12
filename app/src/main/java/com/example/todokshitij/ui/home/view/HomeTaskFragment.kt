@@ -1,6 +1,7 @@
 package com.example.todokshitij.ui.home.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -41,12 +42,6 @@ class HomeTaskFragment : Fragment(), TaskItemAdapter.RemoveTaskListener {
         setupRecyclerView()
         setupOnClickListeners()
 
-        childFragmentManager.addOnBackStackChangedListener {
-            if (childFragmentManager.findFragmentById(R.id.cLHomeTaskFragment) !is TaskFragment) {
-                binding?.buttonAdd?.show()
-            }
-        }
-
         return binding?.root
     }
 
@@ -73,18 +68,14 @@ class HomeTaskFragment : Fragment(), TaskItemAdapter.RemoveTaskListener {
 
     private fun setupRecyclerView() {
 
-        binding?.recyclerView?.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         taskItemAdapter = TaskItemAdapter({
-            childFragmentManager.beginTransaction()
+            arguments = Bundle()
+            arguments?.putParcelable(Constants.TASK_DETAILS, it)
+            parentFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-                .replace(R.id.cLHomeTaskFragment, TaskFragment().apply {
-                    arguments = Bundle()
-                    arguments?.putParcelable(Constants.TASK_DETAILS, it)
-                    binding?.buttonAdd?.hide()
-
-                }).addToBackStack(null)
+                .replace(R.id.fragmentContainerView, TaskFragment::class.java, arguments).addToBackStack(null)
                 .commit()
         }, this)
 
@@ -107,10 +98,9 @@ class HomeTaskFragment : Fragment(), TaskItemAdapter.RemoveTaskListener {
     private fun setupOnClickListeners() {
 
         binding?.buttonAdd?.setOnClickListener {
-            binding?.buttonAdd?.hide()
-            childFragmentManager.beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-                .replace(R.id.cLHomeTaskFragment, TaskFragment())
+                .replace(R.id.fragmentContainerView, TaskFragment::class.java, null)
                 .addToBackStack(null)
                 .commit()
         }
@@ -132,5 +122,4 @@ class HomeTaskFragment : Fragment(), TaskItemAdapter.RemoveTaskListener {
             }
         }
     }
-
 }

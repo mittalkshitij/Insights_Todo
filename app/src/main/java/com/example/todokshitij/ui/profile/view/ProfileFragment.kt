@@ -29,9 +29,9 @@ class ProfileFragment : Fragment() {
     private fun setUserDetails() {
 
         binding?.apply {
-            textViewName.text = getString(R.string.username, sharedPreferences?.getString("user_name","no-name"))
-            textViewMobileNo.text = getString(R.string.mobileno, sharedPreferences?.getString("phone_no","no-phone"))
-            textViewDob.text = getString(R.string.dobUser , sharedPreferences?.getString("user_dob","no-dob"))
+            textViewName.text = getString(R.string.username, sharedPreferences?.getString("user_name",""))
+            textViewMobileNo.text = getString(R.string.mobileno, sharedPreferences?.getString("phone_no",""))
+            textViewDob.text = getString(R.string.dobUser , sharedPreferences?.getString("user_dob",""))
         }
     }
 }

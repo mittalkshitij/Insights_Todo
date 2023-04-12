@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.todokshitij.R
 import com.example.todokshitij.data.prefs.InsightsSharedPreferences.sharedPreferences
 import com.example.todokshitij.databinding.ActivityHomeBinding
+import com.example.todokshitij.ui.main.view.MainActivity
 import com.example.todokshitij.ui.profile.view.ProfileFragment
 import com.example.todokshitij.ui.widget.view.WidgetActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,24 +27,24 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupActionBar()
-        loadFragment(HomeTaskFragment())
+        loadFragment(HomeTaskFragment::class.java)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home_task -> {
-                    loadFragment(HomeTaskFragment())
+                    loadFragment(HomeTaskFragment::class.java)
                     true
                 }
                 R.id.completed_task -> {
-                    loadFragment(CompletedTaskFragment())
+                    loadFragment(CompletedTaskFragment::class.java)
                     true
                 }
                 R.id.profile -> {
-                    loadFragment(ProfileFragment())
+                    loadFragment(ProfileFragment::class.java)
                     true
                 }
                 else -> {
-                    loadFragment(HomeTaskFragment())
+                    loadFragment(HomeTaskFragment::class.java)
                     true
                 }
             }
@@ -58,21 +59,35 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.apiCallButton -> callApi()
+            R.id.logout -> logout()
         }
         return super.onOptionsItemSelected(item)
     }
 
+    private fun logout() {
+
+        sharedPreferences?.edit()?.apply{
+            remove("user_name")
+            remove("phone_no")
+            remove("user_dob")
+            apply()
+        }
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     private fun callApi() {
 
-        val intent = Intent(this,WidgetActivity::class.java)
+        val intent = Intent(this, WidgetActivity::class.java)
         startActivity(intent)
     }
 
-    private fun loadFragment(fragment: Fragment) {
+    private fun loadFragment(fragment: Class<out Fragment>) {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(binding.fragmentContainerView.id, fragment)
+            .replace(binding.fragmentContainerView.id, fragment, null)
             .commit()
     }
 
@@ -82,7 +97,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.apply {
             setDisplayUseLogoEnabled(true)
             setDisplayShowHomeEnabled(true)
-            title = sharedPreferences?.getString("user_name", "hi").toString()
+            title = sharedPreferences?.getString("user_name", "").toString()
         }
     }
 
@@ -91,5 +106,4 @@ class HomeActivity : AppCompatActivity() {
         super.onBackPressedDispatcher.onBackPressed()
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
-
 }

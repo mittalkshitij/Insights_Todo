@@ -1,13 +1,18 @@
 package com.example.todokshitij.ui.splash
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.example.todokshitij.R
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences
+import com.example.todokshitij.data.prefs.InsightsSharedPreferences.sharedPreferences
 import com.example.todokshitij.databinding.ActivitySplashScreenBinding
+import com.example.todokshitij.ui.home.view.HomeActivity
 import com.example.todokshitij.ui.intro.view.IntroActivity
 import com.example.todokshitij.utils.Constants.SPLASH_SCREEN_DURATION
 
@@ -20,10 +25,12 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        InsightsSharedPreferences.createEncryptedSharedPreference(this)
 
         setupAnimation()
         setupHandler()
-        setContentView(binding.root)
     }
 
     private fun setupHandler(){
@@ -40,8 +47,17 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun openActivity() {
-        IntroActivity.openIntroActivity(this)
-        overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
-        finish()
+
+        val fullName = sharedPreferences?.getString("user_name","")
+
+        if (fullName?.isNotEmpty() == true) {
+            val intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            IntroActivity.openIntroActivity(this)
+            overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
+            finish()
+        }
     }
 }

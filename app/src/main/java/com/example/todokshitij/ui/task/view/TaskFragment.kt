@@ -50,7 +50,7 @@ class TaskFragment() : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         checkIsEditing()
-        binding?.textViewTime?.text = "Created at " + formatDate()
+        binding?.textViewTime?.text = getString(R.string.created_at) + formatDate()
         setupOnClickListeners()
 
         return binding?.root
@@ -82,7 +82,6 @@ class TaskFragment() : Fragment() {
             }
 
             textViewLocation.setOnClickListener {
-
                 checkPermissions()
             }
 
@@ -103,12 +102,12 @@ class TaskFragment() : Fragment() {
                 if (id != null) {
                     lifecycle.coroutineScope.launch {
                         homeViewModel.updateTask(task)
-                        parentFragment?.childFragmentManager?.popBackStack()
+                        parentFragmentManager.popBackStack()
                     }
                 } else {
                     lifecycle.coroutineScope.launch {
                         homeViewModel.insertTask(task)
-                        parentFragment?.childFragmentManager?.popBackStack()
+                        parentFragmentManager.popBackStack()
                     }
                 }
             }

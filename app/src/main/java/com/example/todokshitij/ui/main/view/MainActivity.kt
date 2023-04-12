@@ -1,15 +1,11 @@
 package com.example.todokshitij.ui.main.view
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.example.todokshitij.R
 import com.example.todokshitij.data.prefs.InsightsSharedPreferences
 import com.example.todokshitij.data.prefs.InsightsSharedPreferences.sharedPreferences
@@ -29,9 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var loginViewModel: LoginViewModel? = null
 
-    private var fullName : String? = null
-    private var phoneNumber : String? = null
-    private var dob : String? = null
+    private var fullName: String? = null
+    private var phoneNumber: String? = null
+    private var dob: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
-        InsightsSharedPreferences.createEncryptedSharedPreference(this)
 
         setOnClickListeners()
         observeLoginData()
@@ -50,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressedDispatcher.onBackPressed()
-        overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left)
+        overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
     }
 
     private fun observeLoginData() {
@@ -58,19 +52,18 @@ class MainActivity : AppCompatActivity() {
         loginViewModel?.validationLiveData?.observe(this) {
 
             when (it) {
-
                 ValidationStatus.VALIDATION_SUCCESS -> {
 
-                    with(sharedPreferences!!.edit()){
-                        Log.i("===", "$fullName + $phoneNumber + $dob")
-                        putString("user_name",fullName)
-                        putString("phone_no",phoneNumber)
-                        putString("user_dob",dob)
+                    with(sharedPreferences!!.edit()) {
+                        putString("user_name", fullName)
+                        putString("phone_no", phoneNumber)
+                        putString("user_dob", dob)
                         commit()
                     }
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
-                    overridePendingTransition(R.anim.enter_animation,R.anim.exit_animation)
+                    overridePendingTransition(R.anim.enter_animation, R.anim.exit_animation)
+                    finish()
                 }
                 ValidationStatus.VALIDATION_ERROR_NAME -> {
                     binding.editTextName.editText?.error = ERROR_NAME
