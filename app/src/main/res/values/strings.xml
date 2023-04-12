@@ -36,6 +36,7 @@
     <string name="mobileno">"Mobile No : %1$s"</string>
     <string name="dobUser">"Dob : %1$s"</string>
     <string name="logout">Logout</string>
+    <string name="getLocation" > Latitude : %1$s , Longitude : %2$s</string>
 
 
 </resources>

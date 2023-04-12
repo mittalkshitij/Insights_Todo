@@ -1,11 +1,14 @@
 package com.example.todokshitij.ui.task.view
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +26,6 @@ import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
 import com.example.todokshitij.utils.formatDate
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +39,8 @@ class TaskFragment() : Fragment() {
     private var task: Task? = null
 
     private val homeViewModel: HomeViewModel by viewModels()
+
+    private var fusedLocationClient: FusedLocationProviderClient? = null
 
     companion object {
         private const val FINE_LOCATION_REQUEST = 100
@@ -114,55 +117,43 @@ class TaskFragment() : Fragment() {
         }
     }
 
-    private fun checkPermissions(): Boolean {
+    private fun checkPermissions() {
 
-        return if (ContextCompat.checkSelfPermission(
+        if (ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+            fusedLocationClient?.lastLocation?.addOnSuccessListener { location: Location? ->
+
+                binding?.textViewLocation?.text = getString(
+                    R.string.getLocation,
+                    location?.latitude.toString(),
+                    location?.longitude.toString()
+                )
+                return@addOnSuccessListener
+            }
         } else {
             requestPermission()
-            false
         }
     }
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
             requireActivity(),
-            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             FINE_LOCATION_REQUEST
         )
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>, grantResults: IntArray
-    ) {
-        @Suppress("DEPRECATION")
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == FINE_LOCATION_REQUEST) {
-
-            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initLocationUpdate()
-            } else {
-                requestPermission()
-            }
-        }
-
-    }
-
-    private fun initLocationUpdate() {
-
     }
 
     private fun showDateTimePicker() {
         val currentDate = Calendar.getInstance()
         val date = Calendar.getInstance()
         DatePickerDialog(
-            requireContext(), { _, year, monthOfYear, dayOfMonth ->
+            requireContext(),
+            { _, year, monthOfYear, dayOfMonth ->
                 date.set(year, monthOfYear, dayOfMonth)
                 TimePickerDialog(
                     context, { _, hourOfDay, minute ->
@@ -180,7 +171,10 @@ class TaskFragment() : Fragment() {
 
                     }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false
                 ).show()
-            }, currentDate[Calendar.YEAR], currentDate[Calendar.MONTH], currentDate[Calendar.DATE]
+            },
+            currentDate[Calendar.YEAR],
+            currentDate[Calendar.MONTH],
+            currentDate[Calendar.DATE]
         ).show()
     }
 }
