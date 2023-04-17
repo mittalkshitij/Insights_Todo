@@ -53,4 +53,10 @@
 
     <color name="green_shade1">#265636</color>
     <color name="green_shade2">#93AFAC</color>
+    <color name="light_grey">#eaecf4</color>
+    <color name="blue_shade6">#617af1</color>
+
+    <color name="green_shade3">#9ef2d6</color>
+    <color name="green_shade4">#c1eeee</color>
+    <color name="blue_shade7">#e9ecf4</color>
 </resources>

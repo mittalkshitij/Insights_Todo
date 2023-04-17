@@ -3,6 +3,9 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/berkshire_swash</item>
         <item>@font/inter_thin</item>
+        <item>@font/yantramanav</item>
+        <item>@font/yantramanav_black</item>
+        <item>@font/yantramanav_bold</item>
 
     </array>
 </resources>

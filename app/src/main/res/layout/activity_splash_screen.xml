@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/manuscript"
+    android:background="@color/white"
     tools:context=".ui.splash.SplashScreenActivity">
 
     <ImageView
@@ -15,5 +15,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/insightbackground" />
+        app:srcCompat="@drawable/insightapp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

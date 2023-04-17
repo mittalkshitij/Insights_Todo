@@ -1,8 +1,7 @@
 package com.example.todokshitij.ui.task.view
 
 import android.Manifest
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -13,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,9 +24,12 @@ import com.example.todokshitij.databinding.FragmentTaskBinding
 import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
-import com.example.todokshitij.utils.formatDate
+import com.example.todokshitij.utils.DateToString
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
@@ -42,10 +45,13 @@ class TaskFragment() : Fragment() {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
+    private var calendar = Calendar.getInstance()
+
     companion object {
         private const val FINE_LOCATION_REQUEST = 100
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,12 +59,13 @@ class TaskFragment() : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         checkIsEditing()
-        binding?.textViewTime?.text = getString(R.string.created_at) + formatDate()
+        binding?.textViewTime?.text = getString(R.string.created_at) + DateToString.formatDate(Calendar.getInstance().time)
         setupOnClickListeners()
 
         return binding?.root
     }
 
+    @Suppress("DEPRECATION")
     private fun checkIsEditing() {
 
         task = arguments?.getParcelable(TASK_DETAILS)
@@ -69,8 +76,8 @@ class TaskFragment() : Fragment() {
 
                 editTextTitle.editText?.setText(task?.title)
                 editTextDesc.editText?.setText(task?.description)
-                textViewTime.text = task?.createdTime
-                textViewSchedule.text = task?.scheduleTime
+                textViewTime.text = task?.createdTime.toString()
+                textViewSchedule.text = task?.scheduleTime.toString()
             }
         }
     }
@@ -97,20 +104,25 @@ class TaskFragment() : Fragment() {
                 val id = if (task != null) task?.id else null
                 val title = editTextTitle.editText?.text.toString()
                 val desc = editTextDesc.editText?.text.toString()
-                val scheduleTime = textViewSchedule.text.toString()
-                val createdTime = textViewTime.text.toString()
+                val scheduleTime = calendar.time
+                val createdTime = Calendar.getInstance().time
 
-                val task = Task(id, title, desc, createdTime, scheduleTime)
 
-                if (id != null) {
-                    lifecycle.coroutineScope.launch {
-                        homeViewModel.updateTask(task)
-                        parentFragmentManager.popBackStack()
-                    }
-                } else {
-                    lifecycle.coroutineScope.launch {
-                        homeViewModel.insertTask(task)
-                        parentFragmentManager.popBackStack()
+                if (title.isEmpty() ){
+                    Toast.makeText(requireContext(),"Title cannot be empty.",Toast.LENGTH_SHORT).show()
+                }else {
+
+                    val task = Task(id, title, desc, createdTime,scheduleTime)
+                    if (id != null) {
+                        lifecycle.coroutineScope.launch {
+                            homeViewModel.updateTask(task)
+                            parentFragmentManager.popBackStack()
+                        }
+                    } else {
+                        lifecycle.coroutineScope.launch {
+                            homeViewModel.insertTask(task)
+                            parentFragmentManager.popBackStack()
+                        }
                     }
                 }
             }
@@ -149,32 +161,27 @@ class TaskFragment() : Fragment() {
     }
 
     private fun showDateTimePicker() {
-        val currentDate = Calendar.getInstance()
-        val date = Calendar.getInstance()
-        DatePickerDialog(
-            requireContext(),
-            { _, year, monthOfYear, dayOfMonth ->
-                date.set(year, monthOfYear, dayOfMonth)
-                TimePickerDialog(
-                    context, { _, hourOfDay, minute ->
-                        date.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        date.set(Calendar.MINUTE, minute)
 
-                        binding?.textViewSchedule?.text = getString(
-                            R.string.scheduled_time,
-                            dayOfMonth.toString(),
-                            monthOfYear.toString(),
-                            year.toString(),
-                            hourOfDay.toString(),
-                            minute.toString()
-                        )
+        val datePicker = MaterialDatePicker.Builder.datePicker().build()
+        val timePicker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).build()
+        datePicker.addOnPositiveButtonClickListener {
 
-                    }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false
-                ).show()
-            },
-            currentDate[Calendar.YEAR],
-            currentDate[Calendar.MONTH],
-            currentDate[Calendar.DATE]
-        ).show()
+            calendar = Calendar.getInstance()
+            calendar.timeInMillis = it
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            timePicker.show(childFragmentManager, "TAG")
+        }
+
+        timePicker.addOnPositiveButtonClickListener{
+
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            calendar.set(Calendar.MINUTE, timePicker.minute)
+            calendar.set(Calendar.SECOND, 5)
+
+            binding?.textViewSchedule?.text =  DateToString.formatDate(calendar.time)
+        }
+        datePicker.show(childFragmentManager,"TAG")
     }
 }

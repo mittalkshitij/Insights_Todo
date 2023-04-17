@@ -5,13 +5,13 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/manuscript">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/redmanuscript"
+        android:background="@color/blue_shade4"
         android:minHeight="?attr/actionBarSize">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             app:contentScrim="@color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleTextColor="@color/black" />
+            app:titleTextColor="@color/blue" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,7 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@drawable/manuscript"
         tools:context=".ui.widget.view.WidgetActivity">
 
         <androidx.recyclerview.widget.RecyclerView

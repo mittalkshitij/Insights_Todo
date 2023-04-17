@@ -4,6 +4,7 @@ import java.util.*
 
 object Constants {
 
+    const val MAX_TIMESTAMP = 8640000000000000
     const val SPLASH_SCREEN_DURATION = 5000
 
     val MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)

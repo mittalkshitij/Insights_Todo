@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="5dp"
-
+    android:background="@color/blue_shade1"
+    app:cardBackgroundColor="@color/blue_shade1"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="10dp"
+    app:cardElevation="3dp"
+    app:cardMaxElevation="5dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false">
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/horizontalmanuscript_4">
+        >
 
         <TextView
             android:id="@+id/tVWidgetItemId"
@@ -26,7 +26,7 @@
             android:fontFamily="@font/fira_sans"
             android:maxLines="1"
             android:text="@string/widget_id"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_shade3"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             android:fontFamily="@font/fira_sans"
             android:maxLines="1"
             android:text="@string/widget_name"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_shade3"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

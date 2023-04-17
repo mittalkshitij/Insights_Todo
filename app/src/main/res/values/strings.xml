@@ -17,9 +17,8 @@
     <string name="schedule_description">Schedule your task to complete on time</string>
     <string name="manage_description">Manage and plan according to your schedule</string>
     <string name="schedule">Schedule Date and Time</string>
-    <string name="schedule_at">Scheduled at</string>
     <string name="done">Done</string>
-    <string name="created_time">Created at %1$s</string>
+
     <string name="scheduled_time">%1$s/%2$s/%3$s ,%4$s:%5$s</string>
     <string name="widget_id">Widget Id</string>
     <string name="widget_name">Widget Name</string>

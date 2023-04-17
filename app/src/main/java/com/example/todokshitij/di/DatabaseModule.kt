@@ -18,7 +18,9 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun providesTaskDatabase(@ApplicationContext context: Context): TaskDatabase {
-        return Room.databaseBuilder(context,TaskDatabase::class.java,TaskDatabase.DB_NAME).build()
+        return Room.databaseBuilder(context,TaskDatabase::class.java,TaskDatabase.DB_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Singleton

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/manuscript">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
-        android:fontFamily="@font/berkshire_swash"
+        android:fontFamily="@font/yantramanav_bold"
         android:text="@string/login"
-        android:textColor="@color/black"
-        android:textSize="50sp"
+        android:textColor="@color/blue_shade4"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,32 +26,30 @@
         android:layout_width="349dp"
         android:layout_height="0dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/black"
-        android:foregroundTint="@color/black"
         android:hint="@string/full_name"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeErrorColor="@color/black"
-        app:boxStrokeWidth="3dp"
+        app:boxBackgroundColor="@color/blue_shade7"
+        app:counterTextColor="@color/blue_shade1"
         app:errorEnabled="true"
-        app:hintTextColor="@color/black"
+        app:boxStrokeColor="@color/blue_shade4"
+        app:hintTextColor="@color/blue_shade4"
+        android:textColorHint="@color/blue_shade4"
         app:layout_constraintBottom_toTopOf="@+id/editTextMobileNo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:startIconDrawable="@drawable/baseline_person_24"
-        app:startIconTint="@color/black">
+        app:startIconTint="@color/blue_shade4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            app:helperText="Required"
-            android:nextFocusDown="@id/editTextMobileNo"
-            android:maxLines="1"
-            android:fontFamily="@font/berkshire_swash"
+            android:baselineAligned="false"
+            android:fontFamily="@font/yantramanav_medium"
             android:inputType="textPersonName"
-            />
+            android:maxLines="1"
+            android:nextFocusDown="@id/editTextMobileNo"
+            android:textColor="@color/blue_shade4"
+            app:helperText="Required" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -60,12 +58,11 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:hint="@string/mobile_no"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeErrorColor="@color/black"
-        app:boxStrokeWidth="3dp"
         app:errorEnabled="true"
-        app:hintTextColor="@color/black"
+        app:hintTextColor="@color/blue_shade4"
+        app:boxStrokeColor="@color/blue_shade4"
+        android:textColorHint="@color/blue_shade4"
+        app:boxBackgroundColor="@color/blue_shade7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -73,17 +70,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
         app:startIconDrawable="@drawable/baseline_local_phone_24"
-        app:startIconTint="@color/black">
+        app:startIconTint="@color/blue_shade4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:maxLength="10"
-            android:fontFamily="@font/berkshire_swash"
-            android:textColor="@color/black"
+            android:fontFamily="@font/yantramanav_medium"
+            android:textColor="@color/blue_shade4"
             app:helperText="Required"
-            app:helperTextTextColor="@color/design_default_color_error" />
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,28 +91,27 @@
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
         android:hint="@string/dob"
-        android:textColorHint="@color/black"
-        app:boxStrokeColor="@color/black"
-        app:boxStrokeWidth="3dp"
         app:errorEnabled="true"
-        app:hintTextColor="@color/black"
+        app:hintTextColor="@color/blue_shade4"
+        app:boxStrokeColor="@color/blue_shade4"
+        android:textColorHint="@color/blue_shade4"
+        app:boxBackgroundColor="@color/blue_shade7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMobileNo"
         app:startIconDrawable="@drawable/baseline_date_range_24"
-        app:startIconTint="@color/black">
+        app:startIconTint="@color/blue_shade4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/berkshire_swash"
+            android:fontFamily="@font/yantramanav_medium"
             android:inputType="number"
             android:maxLength="10"
             android:imeOptions="actionDone"
-            android:textColor="@color/black"
-            app:helperText="Required"
-            app:helperTextTextColor="@color/design_default_color_error" />
+            android:textColor="@color/blue_shade4"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -126,14 +122,14 @@
         android:layout_marginTop="70dp"
         android:focusable="false"
         android:text="@string/login"
-        android:textColor="@color/black"
+        android:textColor="@color/blue_shade4"
         android:textSize="15sp"
-        android:fontFamily="@font/berkshire_swash"
+        android:fontFamily="@font/yantramanav_black"
         app:cornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDob"
-        app:strokeColor="@color/black" />
+        app:strokeColor="@color/blue_shade3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

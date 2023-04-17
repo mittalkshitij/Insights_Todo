@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-
-    app:cardBackgroundColor="#00FFFFFF"
+    android:background="@color/blue_shade1"
+    app:cardBackgroundColor="@color/blue_shade1"
     app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    app:cardMaxElevation="10dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardElevation="3dp"
+    app:cardMaxElevation="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/horizontalmanuscript_4">
+        >
 
         <TextView
             android:id="@+id/tVItemTitle"
@@ -27,7 +28,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="@string/title"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_shade3"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +44,7 @@
             android:fontFamily="@font/fira_sans"
             android:maxLines="5"
             android:text="@string/desc"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_shade3"
             android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@+id/imageViewDelete"
             app:layout_constraintHorizontal_bias="0.0"
@@ -58,7 +59,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_delete_24" />
+            app:srcCompat="@drawable/baseline_delete_24"
+            app:tint="@color/blue_shade3" />
 
         <TextView
             android:id="@+id/tVItemScheduleAt"
@@ -68,12 +70,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="25dp"
             android:fontFamily="@font/inter_regular"
-            android:textColor="@color/black"
+            android:textColor="@color/blue_shade3"
             android:textSize="13sp"
             app:drawableStartCompat="@drawable/baseline_calendar_month_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tVItemDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tVItemDescription"
+            app:drawableTint="@color/blue_shade3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

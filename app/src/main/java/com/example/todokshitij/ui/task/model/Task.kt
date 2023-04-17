@@ -4,7 +4,9 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.todokshitij.utils.Constants
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 @Parcelize
 @Entity
@@ -17,7 +19,7 @@ data class Task(
     @ColumnInfo(name = "description")
     val description : String,
     @ColumnInfo(name = "created_time")
-    val createdTime : String,
+    val createdTime : Date,
     @ColumnInfo(name = "schedule_time")
-    val scheduleTime : String
+    var scheduleTime : Date
 ) : Parcelable
