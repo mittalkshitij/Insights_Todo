@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import com.example.todokshitij.ui.task.model.Task
 import java.util.*
 
-@Database(entities = [Task::class], version = 5, exportSchema = false)
+@Database(entities = [Task::class], version = 18, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class TaskDatabase :RoomDatabase() {
 

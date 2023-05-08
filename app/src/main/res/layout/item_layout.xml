@@ -68,15 +68,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="15dp"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/inter_regular"
+            android:foregroundGravity="center"
+            android:gravity="center"
             android:textColor="@color/blue_shade3"
             android:textSize="13sp"
             app:drawableStartCompat="@drawable/baseline_calendar_month_24"
+            app:drawableTint="@color/blue_shade3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tVItemDescription"
-            app:drawableTint="@color/blue_shade3" />
+            app:layout_constraintTop_toBottomOf="@id/tVItemDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

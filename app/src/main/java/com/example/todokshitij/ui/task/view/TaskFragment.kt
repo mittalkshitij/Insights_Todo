@@ -2,7 +2,12 @@ package com.example.todokshitij.ui.task.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
@@ -20,7 +25,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.example.todokshitij.R
+import com.example.todokshitij.br.AlarmReceiver
 import com.example.todokshitij.databinding.FragmentTaskBinding
+import com.example.todokshitij.ui.home.view.HomeActivity
 import com.example.todokshitij.ui.home.viewmodel.HomeViewModel
 import com.example.todokshitij.ui.task.model.Task
 import com.example.todokshitij.utils.Constants.TASK_DETAILS
@@ -35,7 +42,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
-class TaskFragment() : Fragment() {
+class TaskFragment : Fragment() {
 
     private var binding: FragmentTaskBinding? = null
 
@@ -45,7 +52,7 @@ class TaskFragment() : Fragment() {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
-    private var calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance()
 
     companion object {
         private const val FINE_LOCATION_REQUEST = 100
@@ -59,25 +66,29 @@ class TaskFragment() : Fragment() {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         checkIsEditing()
-        binding?.textViewTime?.text = getString(R.string.created_at) + DateToString.formatDate(Calendar.getInstance().time)
         setupOnClickListeners()
+        createNotificationChannel()
 
         return binding?.root
     }
 
+    @SuppressLint("SetTextI18n")
     @Suppress("DEPRECATION")
     private fun checkIsEditing() {
 
         task = arguments?.getParcelable(TASK_DETAILS)
 
-        if (task != null) {
+        binding?.apply {
 
-            binding?.apply {
-
+            if (task != null) {
                 editTextTitle.editText?.setText(task?.title)
                 editTextDesc.editText?.setText(task?.description)
-                textViewTime.text = task?.createdTime.toString()
-                textViewSchedule.text = task?.scheduleTime.toString()
+                textViewTime.text = task?.createdTime
+                textViewSchedule.text = task?.scheduleTime
+            } else {
+                task = Task()
+                textViewTime.text =
+                    getString(R.string.created_at) + " " + DateToString.formatDate(Calendar.getInstance().time)
             }
         }
     }
@@ -101,28 +112,19 @@ class TaskFragment() : Fragment() {
                     tickButton.windowToken, 0
                 )
 
-                val id = if (task != null) task?.id else null
-                val title = editTextTitle.editText?.text.toString()
-                val desc = editTextDesc.editText?.text.toString()
-                val scheduleTime = calendar.time
-                val createdTime = Calendar.getInstance().time
+                task?.title = editTextTitle.editText?.text.toString()
+                task?.description = editTextDesc.editText?.text.toString()
+                task?.scheduleTime = textViewSchedule.text.toString()
+                task?.createdTime = textViewTime.text.toString()
 
-
-                if (title.isEmpty() ){
-                    Toast.makeText(requireContext(),"Title cannot be empty.",Toast.LENGTH_SHORT).show()
-                }else {
-
-                    val task = Task(id, title, desc, createdTime,scheduleTime)
-                    if (id != null) {
-                        lifecycle.coroutineScope.launch {
-                            homeViewModel.updateTask(task)
-                            parentFragmentManager.popBackStack()
-                        }
-                    } else {
-                        lifecycle.coroutineScope.launch {
-                            homeViewModel.insertTask(task)
-                            parentFragmentManager.popBackStack()
-                        }
+                if (task?.title?.isEmpty() == true) {
+                    Toast.makeText(requireContext(), "Title cannot be empty.", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    lifecycle.coroutineScope.launch {
+                        task?.let { task ->
+                            homeViewModel.insertTask(task) }
+                        parentFragmentManager.popBackStack()
                     }
                 }
             }
@@ -163,25 +165,68 @@ class TaskFragment() : Fragment() {
     private fun showDateTimePicker() {
 
         val datePicker = MaterialDatePicker.Builder.datePicker().build()
-        val timePicker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H).build()
+        val timePicker = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_12H).build()
         datePicker.addOnPositiveButtonClickListener {
 
-            calendar = Calendar.getInstance()
             calendar.timeInMillis = it
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
-            calendar.set(Calendar.MINUTE, 0)
-            calendar.set(Calendar.SECOND, 0)
             timePicker.show(childFragmentManager, "TAG")
         }
 
-        timePicker.addOnPositiveButtonClickListener{
+        timePicker.addOnPositiveButtonClickListener {
 
             calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
             calendar.set(Calendar.MINUTE, timePicker.minute)
             calendar.set(Calendar.SECOND, 5)
 
-            binding?.textViewSchedule?.text =  DateToString.formatDate(calendar.time)
+            task?.scheduleTime = DateToString.formatDate(calendar.time)
+
+            binding?.textViewSchedule?.text = task?.scheduleTime
         }
-        datePicker.show(childFragmentManager,"TAG")
+        datePicker.show(childFragmentManager, "TAG")
+    }
+
+    private fun setAlarm(task: Task) {
+
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        intent.putExtra("task_info", task)
+
+        val pendingIntent = task.id.let {
+            PendingIntent.getBroadcast(
+                requireContext(),
+                it,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+
+        }
+        val mainActivityIntent = Intent(requireContext(), HomeActivity::class.java)
+        val basicPendingIntent = task.id.let {
+            PendingIntent.getActivity(
+                requireContext(),
+                it,
+                mainActivityIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        val clockInfo = AlarmManager.AlarmClockInfo(task.scheduleTime!!.toLong(), basicPendingIntent)
+        alarmManager.setAlarmClock(clockInfo, pendingIntent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+
+        Log.i("====", "CHECK 1")
+
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel =
+            NotificationChannel("to_do_list", "Tasks Notification Channel", importance).apply {
+                description = "Notification for Tasks"
+            }
+        val notificationManager =
+            activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
     }
 }

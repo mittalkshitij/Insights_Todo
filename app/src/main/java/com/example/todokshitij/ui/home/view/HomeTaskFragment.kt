@@ -98,6 +98,7 @@ class HomeTaskFragment : Fragment(), TaskItemAdapter.RemoveTaskListener {
     private fun setupOnClickListeners() {
 
         binding?.buttonAdd?.setOnClickListener {
+
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
                 .replace(R.id.fragmentContainerView, TaskFragment::class.java, null)

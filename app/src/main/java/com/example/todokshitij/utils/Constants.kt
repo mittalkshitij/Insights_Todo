@@ -4,8 +4,9 @@ import java.util.*
 
 object Constants {
 
+    const val sDate = 1640908800
     const val MAX_TIMESTAMP = 8640000000000000
-    const val SPLASH_SCREEN_DURATION = 5000
+    const val SPLASH_SCREEN_DURATION = 3000
 
     val MAX_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR)
     val MIN_VALID_YEAR = Calendar.getInstance().get(Calendar.YEAR) - 50

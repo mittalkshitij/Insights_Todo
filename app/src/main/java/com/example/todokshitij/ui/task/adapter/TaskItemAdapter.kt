@@ -32,7 +32,7 @@ class TaskItemAdapter(private val onTaskClick: (Task) -> Unit ,private val remov
             binding.apply {
                 tVItemTitle.text = task.title
                 tVItemDescription.text = task.description
-                tVItemScheduleAt.text = DateToString.formatDate(task.scheduleTime)
+                tVItemScheduleAt.text = task.scheduleTime
             }
 
             binding.imageViewDelete.setOnClickListener {
