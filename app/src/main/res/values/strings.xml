@@ -36,6 +36,7 @@
     <string name="dobUser">"Dob : %1$s"</string>
     <string name="logout">Logout</string>
     <string name="getLocation" > Latitude : %1$s , Longitude : %2$s</string>
+    <string name="change_profile_picture">Change Profile Picture</string>
 
 
 </resources>
